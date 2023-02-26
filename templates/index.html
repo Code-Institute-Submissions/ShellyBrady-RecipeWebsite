@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A website for simple, easy recipes">
+    <meta name="keywords" content="simple recipe, easy recipe, easy, simple, cooking, home, tasty">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+    <script src="https://kit.fontawesome.com/e576ca19f3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+
+</head>
+
+<body class="">
+       <!--top of every page-->
+    <header class="logo-brand">
+        <div class="container-fluid">
+          <a href="index.html" class="logo">
+            <h1 >Nice and Easy Recipes</h1>
+          </a>
+
+       <!--nav bar items to link to web pages they belong to-->  
+            <nav >
+
+              <ul id="menu">
+
+              <li>
+              <a href="#index.html" class="active">Home</a>
+              </li>
+
+              <li>
+              <a href="recipes.html">Recipes</a>
+              </li>
+
+              <li> 
+              <a href="contact-us.html">Contact Us</a>
+              </li>
+
+              </ul>
+   <!--collapsable menu-->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+              aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                    </li>
+                   {% if user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                    </li>
+                   {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                    </li>
+                   {% endif %}
+                  </ul>
+                </div>  
+            </nav>
+                
+    </header>
+
+
+
+    <main class="flex-shrink-0 main-bg">
+
+        {% block content %}
+        <!-- Content Goes here -->
+        {% endblock content %}
+    </main>
+
+
+
+    <!--footer-->
+    <footer class="">
+        
+      <div class="footer-content">
+         
+        <h3>Nice and Easy Recipes</h3>
+
+        <p>
+          Follow us on social-media
+        </p>
+
+    
+        <!--social media links--> 
+
+        <ul class="social-media">
+          <li>
+            <a href="https://facebook.com" target="_blank" rel="noopener"
+                aria-label="Visit our Facebook page (opens in a new tab)"><i class="fab fa-facebook-square"></i></a>
+          </li>
+          <li>
+            <a href="https://twitter.com" target="_blank" rel="noopener"
+                aria-label="Visit our Twitter page (opens in a new tab)"><i class="fab fa-twitter-square"></i></a>
+          </li>
+          <li>
+            <a href="https://youtube.com" target="_blank" rel="noopener"
+                aria-label="Visit our YouTube page (opens in a new tab)"><i class="fab fa-youtube-square"></i></a>
+          </li>
+          <li>
+            <a href="https://instagram.com" target="_blank" rel="noopener"
+                aria-label="Visit our Instagram page (opens in a new tab)"><i class="fab fa-instagram"></i></a>
+          </li>
+        </ul>
+
+
+
+        </div>
+
+        <div class="footer-bottom">
+          <p>© Michelle Brady 2023</p>
+        </div>
+
+      </div>
+  
+</body>
+    
+</html>
+    </footer>
+
