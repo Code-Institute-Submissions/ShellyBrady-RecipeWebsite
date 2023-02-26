@@ -1,1 +1,1 @@
-web: gunicorn niceandeasyrecipes.wsgi
+web: gunicorn NiceAndEasyRecipes.wsgi
