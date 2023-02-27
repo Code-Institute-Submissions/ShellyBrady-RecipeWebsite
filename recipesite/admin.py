@@ -1,46 +1,24 @@
-from django.db import models
-from django.contrib.auth.models import User
-from cloudinary.models import CloudinaryField
+from django.contrib import admin
+from .models import Post, Comment
+from django_summernote.admin import SummernoteModelAdmin
 
 
-STATUS = ((0, "Draft"), (1, "Published"))
+@admin.register(Post)
+class PostAdmin(SummernoteModelAdmin):
+
+    list_display = ('title', 'slug', 'status', 'created_on')
+    search_fields = ['title', 'content']
+    prepopulated_fields = {'slug': ('title',)}
+    list_filter = ('status', 'created_on')
+    summernote_fields = ('content')
 
 
-class Post(models.Model):
-    title = models.CharField(max_length=200, unique=True)
-    slug = models.SlugField(max_length=200, unique=True)
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="blog"
-    )
-    updated_on = models.DateTimeField(auto_now=True)
-    ingredients_field = models.TextField(default='ingredients')
-    instructions_field = models.TextField(default='instructions')
-    featured_image = CloudinaryField('image', default='placeholder')
-    excerpt = models.TextField(blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS, default=0)
-    likes = models.ManyToManyField(
-        User, related_name='post_likes', blank=True)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'body', 'post', 'created_on', 'approved')
+    list_filter = ('approved', 'created_on')
+    search_fields = ('name', 'email', 'body')
+    actions = ['approve_comments']
 
-    class Meta:
-        ordering = ["-created_on"]
-
-    def __str__(self):
-        return self.title
-
-    def number_of_likes(self):
-        return self.likes.count()
-
-
-class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE,
-                             related_name="comments")
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
-
-
-class Meta:
-    ordering = ['created_on']
+    def approve_comments(self, request, queryset):
+        queryset.update(approved=True)
