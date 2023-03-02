@@ -19,62 +19,49 @@
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
     </script>
     <script src="https://kit.fontawesome.com/e576ca19f3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 </head>
 
-<body class="">
+<body class="container-body">
        <!--top of every page-->
-    <header class="logo-brand">
-        <div class="container-fluid">
-          <a href="index.html" class="logo">
-            <h1 >Nice and Easy Recipes</h1>
-          </a>
+    <header>
+      <h1 >Nice and Easy Recipes</h1>
 
-       <!--nav bar items to link to web pages they belong to-->  
-            <nav >
+        <div class="nav-container">
+              <!--nav bar items to link to web pages they belong to-->  
+          <nav>
 
-              <ul id="menu">
+            <ul id="menu">
 
               <li>
-              <a href="#index.html" class="active">Home</a>
+              <a href="#" class="active">Home</a>
               </li>
 
               <li>
-              <a href="recipes.html">Recipes</a>
+              <a href="#">Recipes</a>
               </li>
 
               <li> 
-              <a href="contact-us.html">Contact Us</a>
+              <a href="#">Contact Us</a>
               </li>
-
-              </ul>
-   <!--collapsable menu-->
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-              aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-              </button>
-                <div class="collapse navbar-collapse" id="navbarText">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                    </li>
-                   {% if user.is_authenticated %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-                    </li>
-                   {% else %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-                    </li>
-                   {% endif %}
-                  </ul>
-                </div>  
-            </nav>
-                
+              
+              <li> 
+                      <!--collapsable menu-->
+                <div class="dropdown">
+                  <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                  <div class="dropdown-content">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}">Logout</a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}">Register</a>
+                    <a href="{% url 'account_login' %}">Login</a>
+                  {% endif %}
+                </div>
+              </li>       
+            </ul>
+          </nav>
+        </div>          
     </header>
 
 
@@ -129,7 +116,7 @@
           <p>© Michelle Brady 2023</p>
         </div>
 
-      </div>
+      
   
 </body>
     

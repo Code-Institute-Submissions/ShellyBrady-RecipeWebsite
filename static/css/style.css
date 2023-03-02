@@ -1,0 +1,87 @@
+@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+
+.container-body {
+    background-color: whitesmoke;
+}
+
+h1 {
+    font-family: 'Libre Baskerville', serif ;
+    color: darkgreen;
+    font-weight: 600;
+    font: size 1.6em;
+    text-decoration: none;
+    text-align: center;
+    padding: 5%;
+}
+
+header a {
+    text-decoration: none;
+    color: darkslategray;
+    font-weight: 600;
+    font-size: 1.2em;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 100%;
+    text-align: center;
+}
+
+#menu li {
+    display: inline;
+    height: 100%;
+    font-size: 1.2em;
+    align-items: center;
+    width: 100%;
+}
+
+nav li {
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 5%;
+    width: 100%;
+}
+
+.nav-container {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: antiquewhite;
+}
+/*profile drop down list*/
+header .dropdown {
+    align-items: flex-start;
+}
+.nav-container button {
+    align-self: flex-end;
+}
+button.dropbtn {
+    font-size: 1.2em;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 10;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+.dropdown-content a {
+    color: darkslategray;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+.dropdown-content a:hover {background-color: lightslategray;}
+.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropbtn {background-color: green;}
