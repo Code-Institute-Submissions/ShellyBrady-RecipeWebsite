@@ -23,43 +23,43 @@
 
 </head>
 
-<body class="container-body">
+<body class="container-fluid">
        <!--top of every page-->
     <header>
       <h1 >Nice and Easy Recipes</h1>
 
-        <div class="nav-container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white"></nav>
+          <div class="nav-container">
               <!--nav bar items to link to web pages they belong to-->  
-          <nav>
-
-            <ul id="menu">
+      
+            <ul class="nav navbar-nav" id="menu">
 
               <li>
-              <a href="#" class="active">Home</a>
+                <a href="{% url 'home' %}" aria-current="page" class="active">Home</a>
               </li>
 
               <li>
-              <a href="#">Recipes</a>
+                <a href="#">Recipes</a>
               </li>
 
               <li> 
-              <a href="#">Contact Us</a>
-              </li>
-              
-              <li> 
-                      <!--collapsable menu-->
-                <div class="dropdown">
-                  <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
-                  <div class="dropdown-content">
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'account_logout' %}">Logout</a>
-                    {% else %}
-                    <a href="{% url 'account_signup' %}">Register</a>
-                    <a href="{% url 'account_login' %}">Login</a>
+                <a href="#">Profile</a>
+              </li>      
+            
+              <li>
+                  {% if user.is_authenticated %}
+                  <li>
+                    <a class="user-item" aria-current="page" href="{% url 'account_logout' %}">Log Out</a></li>
+                  {% else %}
+                  <li>
+                    <a class="user-item" href="{% url 'account_login' %}">Log In</a></li>
+                  <li>
+                    <a class="user-item" href="{% url 'account_signup' %}">Sign Up</a></li>
                   {% endif %}
-                </div>
-              </li>       
-            </ul>
+              </li>
+            </ul>        
+              </div>
+            </div>
           </nav>
         </div>          
     </header>
