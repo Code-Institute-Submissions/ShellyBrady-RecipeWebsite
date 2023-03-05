@@ -28,45 +28,25 @@
     <header>
       <h1 >Nice and Easy Recipes</h1>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-white"></nav>
-          <div class="nav-container">
-              <!--nav bar items to link to web pages they belong to-->  
-      
-            <ul class="nav navbar-nav" id="menu">
+            <div class="list-group list-group-horizontal-sm me-0" id="menu">
 
-              <li>
-                <a href="{% url 'home' %}" aria-current="page" class="active">Home</a>
-              </li>
+              <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'home' %}">Home</a></button>
 
-              <li>
-                <a href="#">Recipes</a>
-              </li>
+              <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="#">Recipes</a></button>
 
-              <li> 
-                <a href="#">Profile</a>
-              </li>      
-            
-              <li>
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="#">Profile</a></button> 
                   {% if user.is_authenticated %}
-                  <li>
-                    <a class="user-item" aria-current="page" href="{% url 'account_logout' %}">Log Out</a></li>
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_logout' %}">Log Out</a></button>
                   {% else %}
-                  <li>
-                    <a class="user-item" href="{% url 'account_login' %}">Log In</a></li>
-                  <li>
-                    <a class="user-item" href="{% url 'account_signup' %}">Sign Up</a></li>
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_login' %}">Log In</a></button>
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_signup' %}">Sign Up</a></button>
                   {% endif %}
-              </li>
-            </ul>        
-              </div>
-            </div>
-          </nav>
-        </div>          
+            </div>                 
     </header>
 
 
 
-    <main class="flex-shrink-0 main-bg">
+    <main class="flex-shrink-0 me-2 ms-2">
 
         {% block content %}
         <!-- Content Goes here -->
@@ -76,37 +56,30 @@
 
 
     <!--footer-->
-    <footer class="">
+  <footer class="">
         
-      <div class="footer-content">
+    <div class="footer-content">
          
-        <h3>Nice and Easy Recipes</h3>
+      <h3>Nice and Easy Recipes</h3>
 
-        <p>
+      <p>
           Follow us on social-media
-        </p>
-
+      </p>
     
         <!--social media links--> 
 
-        <ul class="social-media">
-          <li>
-            <a href="https://facebook.com" target="_blank" rel="noopener"
+        <section class="mb-4 text-center">
+            <a class="btn btn-floating m-1" href="https://facebook.com" role="button" target="_blank" rel="noopener"
                 aria-label="Visit our Facebook page (opens in a new tab)"><i class="fab fa-facebook-square"></i></a>
-          </li>
-          <li>
-            <a href="https://twitter.com" target="_blank" rel="noopener"
+
+            <a class="btn btn-floating m-1" href="https://twitter.com" role="button" target="_blank" rel="noopener"
                 aria-label="Visit our Twitter page (opens in a new tab)"><i class="fab fa-twitter-square"></i></a>
-          </li>
-          <li>
-            <a href="https://youtube.com" target="_blank" rel="noopener"
+
+            <a class="btn btn-floating m-1" href="https://youtube.com" role="button" target="_blank" rel="noopener"
                 aria-label="Visit our YouTube page (opens in a new tab)"><i class="fab fa-youtube-square"></i></a>
-          </li>
-          <li>
-            <a href="https://instagram.com" target="_blank" rel="noopener"
+
+            <a class="btn btn-floating m-1" href="https://instagram.com" role="button" target="_blank" rel="noopener"
                 aria-label="Visit our Instagram page (opens in a new tab)"><i class="fab fa-instagram"></i></a>
-          </li>
-        </ul>
 
 
 
@@ -120,6 +93,6 @@
   
 </body>
     
-</html>
-    </footer>
 
+  </footer>
+</html>

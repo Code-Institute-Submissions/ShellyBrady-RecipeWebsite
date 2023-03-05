@@ -2,7 +2,10 @@
 
 .container-fluid {
     background-color: whitesmoke;
+
 }
+
+  /*Logo Styling*/
 
 h1 {
     font-family: 'Libre Baskerville', serif ;
@@ -14,50 +17,52 @@ h1 {
     padding: 6%;
 }
 
+  /*nav area styling*/
+
 header a {
-    display: flex;
+    text-align: center;
     text-decoration: none;
     color: darkslategray;
     font-weight: 600;
-    font-size: 1.2em;
+    font-size: 1.5em;
     font-family: Georgia, 'Times New Roman', Times, serif;
     line-height: 100%;
     justify-content: space-between;
 }
 
+.container-fluid {
+    text-align: center;
+}
 
-#menu li {
-    display: flex;
-    height: 100%;
-    font-size: 1.2em;
-    justify-content: space-between;
+button.list-group-item.list-group-item-action.px-3.border-0 {
     width: 100%;
+    margin-left: 1em;
+    margin-right: 1em;
+    text-align: center;
 }
 
-nav li {
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-bottom: 2%;
-    width: 100%;
+#menu.list-group.list-group-horizontal-sm.me-0 {
+    background-color: white;
 }
 
-nav #menu {
-    display: flex;
-    padding: 5%;
-    margin-bottom: 5%;
-    justify-content: space-between;
-}
-.nav-container {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    background-color: antiquewhite;
-    justify-content: space-between;
+  /*footer styling */
+
+footer {
+    background-color: white;
+    padding: 1em;
 }
 
-.navbar-nav li a{
-    justify-content: space-between;
-    padding: 7%;
+footer h3 {
+    font-weight: 600;
+    font-size: 1.7em;
+    color: darkgreen;
+    font-family: 'Libre Baskerville', serif ;
 }
 
+.btn.btn-floating.m-1 {
+    font-weight: 500;
+    font-size: 1.6em;
+    color: darkslategray;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
 
