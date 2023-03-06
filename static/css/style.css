@@ -71,6 +71,10 @@ footer h3 {
 }
 
 /*style recipe cards */
+.card {
+    background-color: transparent;
+    border: none;
+}
 
 h3.card-header {
     color: darkgreen;
@@ -98,6 +102,31 @@ body.container-fluid {
 
 /* style of recipe page */
 
-h3.card-body {
-    float: left;
+.ingredients-title h3 {
+    text-align:left;
+    padding: 1%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 500;
+    color: darkslategray;
+}
+
+.instructions-title h3 {
+    text-align:left;
+    padding: 1%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 500;
+    color: darkslategray;
+}
+
+.post-ingredients.col.card.mb-4.mt-3, 
+.post-instructions.col.card.mb-2.mt-2 {
+    text-align: Left;
+    padding: 1%;
+    color: darkslategray;
+    font-weight: 500;
+    font-size: 1.2em;
+}
+
+.card-body {
+    background-color: white;
 }

@@ -24,14 +24,34 @@
 
 <div class="container">
     <div class="row">
-        <div class="col card mb-4  mt-3 left  top">
-            <div class="card-body">
-                <h3 class="float-start m-4">Ingredients</h3>
-                <p class="post-ingredients float-start m-2">{{ post.ingredients_field | safe }}</p>
-                <hr>
-                <h3 class="float-start m-4">Instructions</h3>
-                <p class="post-instructions float-start m-2">{{ post.instructions_field | safe }}</p>
-                <hr> 
+        <div class="col card mb-4 mt-3 left top">
+            <div class="card-body" style="border: 1px solid darkgreen">
+                <div class="ingredients-title">
+                    <h3 >Ingredients</h3>
+                </div>
+                <div class="post-ingredients col card mb-4 mt-3">
+                    <p>{{ post.ingredients_field | safe }}</p>
+                </div>
+            </div>
+        </div>
+    </div>     
+
+    
+
+    <div class="row">
+        <div class="col card mb-4  mt-3 left  top ">
+            <div class="card-body" style="border: 1px solid darkgreen">
+                <div class="instructions-title">
+                    <h3>Instructions</h3>
+                </div>
+                <div class="post-instructions col card mb-2 mt-2">
+                    <p>{{ post.instructions_field | safe }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr /> 
                 
                 <div class="row">
                     <div class="col-2">
@@ -68,7 +88,7 @@
                     <div class="col-1">
                         {% with comments.count as total_comments %}   
                         <strong class="text-secondary"><i class="far fa-comments"></i>
-                            <!-- Our total_comments variable goes before the closing strong tag -->
+                            <!--total_comments variable-->
                             {{ total_comments }}
                         </strong>
                         {% endwith %}
@@ -117,7 +137,7 @@
                 <h3>Leave a comment on this recipe:</h3>
                 <p>Posting as: {{ user.username }}</p>
                 <form method="post" style="margin-top: 1.3em;">
-                    {{ comment_form }}
+                    {{ comment_form|crispy }}
                     {% csrf_token %}
                     <button type="submit" class="btn btn-signup btn-lg">Submit Comment</button>
                 </form>
