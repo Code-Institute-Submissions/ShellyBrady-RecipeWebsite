@@ -26,12 +26,15 @@
     <div class="row">
         <div class="col card mb-4  mt-3 left  top">
             <div class="card-body">
-                <!-- The post content goes inside the card-text. -->
-                <!-- Use the | safe filter inside the template tags -->
-                <p class="card-text ">{{ post.content | safe }}</p>
+                <h3 class="float-start m-4">Ingredients</h3>
+                <p class="post-ingredients float-start m-2">{{ post.ingredients_field | safe }}</p>
+                <hr>
+                <h3 class="float-start m-4">Instructions</h3>
+                <p class="post-instructions float-start m-2">{{ post.instructions_field | safe }}</p>
+                <hr> 
+                
                 <div class="row">
-
-                    <div class="col-1">
+                    <div class="col-2">
                         <strong>
                             {% if user.is_authenticated %}
                             <form class="d-inline" action="{% url 'post_like' post.slug %}" 
@@ -39,13 +42,13 @@
                                 {% csrf_token %}
                                 {% if liked %}
 
-                                <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like">
+                                <button type="submit" name="recipepost_id" value="{{post.slug}}" class="btn-like">
                                     <i class="fas fa-heart"></i> 
                                 </button>
 
                                 {% else %}
 
-                                <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like">
+                                <button type="submit" name="recipepost_id" value="{{post.slug}}" class="btn-like">
                                     <i class="far fa-heart"></i>
                                 </button>
 
@@ -83,7 +86,7 @@
         <div class="col-md-8 card mb-4  mt-3 ">
             <h3>Comments:</h3>
             <div class="card-body">
-                <!-- We want a for loop inside the tags to iterate through each comment in comments -->
+                <!-- for loop inside the tags to iterate through each comment in comments -->
                 {% for comment in comments %}
                 <div class="comments" style="padding: 10px;">
                     <p class="font-weight-bold">

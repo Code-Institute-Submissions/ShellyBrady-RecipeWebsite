@@ -1,5 +1,9 @@
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
 
+* {
+    margin: 0;
+}
+
 .container-fluid {
     background-color: whitesmoke;
 
@@ -66,3 +70,34 @@ footer h3 {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+/*style recipe cards */
+
+h3.card-header {
+    color: darkgreen;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.row {
+    justify-content: center;
+    margin: 1%;
+    padding: 1%;
+}
+
+h4.author {
+    color: black;
+}
+
+body.container-fluid {
+    margin: 1%;
+}
+
+.card-footer.pb-3 {
+    font-size: 1.3em;
+    color: darkslategray;
+}
+
+/* style of recipe page */
+
+h3.card-body {
+    float: left;
+}
