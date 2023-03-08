@@ -10,9 +10,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="blog"
-    )
+        User, on_delete=models.CASCADE, related_name="posts")
     updated_on = models.DateTimeField(auto_now=True)
+    description = models.TextField(default='description')
     ingredients_field = models.TextField(default='ingredients')
     instructions_field = models.TextField(default='instructions')
     featured_image = CloudinaryField('image', default='placeholder')
@@ -44,3 +44,33 @@ class Comment(models.Model):
 
 class Meta:
     ordering = ['created_on']
+
+
+class Submit_Recipe(models.Model):
+    title = models.CharField(max_length=120)
+    description = models.TextField()
+    ingredients = models.TextField()
+    instructions = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    featured_image = CloudinaryField('image', default='placeholder')
+    created_on = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+    status = models.IntegerField(choices=STATUS, default=0)
+
+    def __str__(self):
+        return self.title
+
+
+class Recipe(models.Model):
+    title = models.CharField(max_length=120)
+    description = models.TextField()
+    ingredients = models.TextField()
+    instructions = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
+    featured_image = CloudinaryField('image', default='placeholder')
+    created_on = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+    status = models.IntegerField(choices=STATUS, default=0)
+
+    def __str__(self):
+        return self.titles

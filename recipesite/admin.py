@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Submit_Recipe
 from django_summernote.admin import SummernoteModelAdmin
-
-#same as i think therefore i blog walkthrough
 
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
@@ -23,3 +21,16 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         queryset.update(approved=True)
+
+
+@admin.register(Submit_Recipe)
+class Submit_RecipeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'ingredients', 'instructions', 'created_on', 'approved', 'status', )
+    list_filter = ('approved', 'created_on')
+    search_fields = ('author', 'email', 'body')
+    actions = ['approve_recipes']
+
+    def approve_recipes(modeladmin, request, queryset):
+        queryset.update(approved=True)
+
+    approve_recipes.short_description = "Approve selected recipes"

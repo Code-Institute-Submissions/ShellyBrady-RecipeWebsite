@@ -1,5 +1,7 @@
-from .models import Comment, Post
+from .models import Comment, Post, Submit_Recipe
 from django import forms
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 
 class CommentForm(forms.ModelForm):
@@ -8,7 +10,13 @@ class CommentForm(forms.ModelForm):
         fields = ('body',)
 
 
-class RecipeForm(forms.ModelForm):
+class Submit_RecipeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Submit'))
+
     class Meta:
-        model = Post
-        fields = ('title', 'ingredients_field', 'instructions_field',)
+        model = Submit_Recipe
+        fields = ('title', 'description', 'ingredients', 'instructions',)
