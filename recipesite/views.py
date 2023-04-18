@@ -95,12 +95,12 @@ def submit_recipe(request):
 
 
 def member_recipes(request):
-    return render(request, 'user_recipes.html')
+    return render(request, 'member_recipes_page.html')
 
 
 class RecipeList(generic.ListView):
     model = Recipe
-    template_name = 'user_recipes.html'
+    template_name = 'member_recipes_page.html'
     queryset = Recipe.objects.filter(status=1).order_by('-created_on')
     paginate_by = 6
 
