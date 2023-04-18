@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 class PostForm(forms.ModelForm):
-    pagev=vforms.ModelChoiceField(queryset=Page.objects.all())
+    page = forms.ModelChoiceField(queryset=Page.objects.all())
 
     class Meta:
         model = Post
