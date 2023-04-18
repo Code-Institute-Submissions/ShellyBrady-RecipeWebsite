@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Submit_Recipe
+from .models import Post, Comment, Submit_Recipe, 
 from django_summernote.admin import SummernoteModelAdmin
 
 

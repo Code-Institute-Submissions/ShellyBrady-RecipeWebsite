@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
 from django.http import HttpResponseRedirect, Http404
 from .models import Post, Submit_Recipe, Recipe
-from .forms import CommentForm, Submit_RecipeForm
+from .forms import CommentForm, Submit_RecipeForm, PostForm
 from django.contrib import messages
 from django.views.generic import DetailView
 
@@ -87,6 +87,7 @@ def submit_recipe(request):
             submit_recipe.user = request.user
             submit_recipe.is_approved = False
             submit_recipe.save()
+            return redirect('member_recipe_detail', pk=member_recipes.pk)
         else:
             return render(request, 'submit_recipe.html', {'form': form})
     else:
