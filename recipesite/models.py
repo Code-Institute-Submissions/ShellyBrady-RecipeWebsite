@@ -51,10 +51,9 @@ class Submit_Recipe(models.Model):
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submitter')
     featured_image = CloudinaryField('image', default='placeholder')
     created_on = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS, default=0)
 
     def __str__(self):

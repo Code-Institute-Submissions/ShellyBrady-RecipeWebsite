@@ -5,7 +5,7 @@
 <div class="container-fluid justify-content-center p-0 me-2 ms-2">
     <div class="row justify-content-around vh100"> 
         <!--recipe entry-->
-        {% for --recipe in user_recipes %}
+        {% for recipe in user_recipes %}
         <div class="card-group col-sm-4">
                 <div class="card" style="background-color:#bebcbc;">
                                 {% if "placeholder" in recipe.featured_image.url %}
@@ -21,7 +21,7 @@
                                 </a>
                                 {% endif %}
 
-                            <a href="{% url 'member_recipe_detail' post.slug  %}">
+                            <a href="{% url 'member_recipe_detail' recipe.slug  %}">
                                 <h3 class="card-header">{{ recipe.title }}</h3>
                                 <h4 class="author">{{ recipe.user }}</h4>
                             </a>

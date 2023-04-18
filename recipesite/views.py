@@ -87,8 +87,6 @@ def submit_recipe(request):
             submit_recipe.user = request.user
             submit_recipe.is_approved = False
             submit_recipe.save()
-            messages.success(request, 'Your recipe has been submitted.')
-            return redirect('home')
         else:
             return render(request, 'submit_recipe.html', {'form': form})
     else:
@@ -97,7 +95,7 @@ def submit_recipe(request):
 
 
 def member_recipes(request):
-    return render(request, 'member_recipes_page.html')
+    return render(request, 'user_recipes.html')
 
 
 class RecipeList(generic.ListView):
