@@ -3,12 +3,14 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+
 class PostForm(forms.ModelForm):
     page = forms.ModelChoiceField(queryset=Page.objects.all())
 
     class Meta:
         model = Post
         fields = ['title', 'content', 'page']
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
