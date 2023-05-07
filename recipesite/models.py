@@ -6,6 +6,10 @@ from cloudinary.models import CloudinaryField
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
+class Page(models.Model):
+    title = models.CharField(max_length=255)
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -13,6 +17,7 @@ class Post(models.Model):
         User, on_delete=models.CASCADE, related_name="posts")
     updated_on = models.DateTimeField(auto_now=True)
     description = models.TextField(default='description')
+    content = models.TextField()
     ingredients_field = models.TextField(default='ingredients')
     instructions_field = models.TextField(default='instructions')
     featured_image = CloudinaryField('image', default='placeholder')
@@ -21,7 +26,7 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     likes = models.ManyToManyField(
         User, related_name='post_likes', blank=True)
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    Page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
 class Meta:
@@ -32,10 +37,6 @@ class Meta:
 
     def number_of_likes(self):
         return self.likes.count()
-
-
-class Page(models.Model):
-    title = models.CharField(max_length=255)
 
 
 class Comment(models.Model):
