@@ -8,6 +8,19 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 class Page(models.Model):
     title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=200, unique=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts")
+    updated_on = models.DateTimeField(auto_now=True)
+    description = models.TextField(default='description')
+    ingredients_field = models.TextField(default='ingredients')
+    instructions_field = models.TextField(default='instructions')
+    featured_image = CloudinaryField('image', default='placeholder')
+    excerpt = models.TextField(blank=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS, default=0)
+    likes = models.ManyToManyField(
+        User, related_name='post_likes', blank=True)
 
 
 class Post(models.Model):
@@ -17,7 +30,6 @@ class Post(models.Model):
         User, on_delete=models.CASCADE, related_name="posts")
     updated_on = models.DateTimeField(auto_now=True)
     description = models.TextField(default='description')
-    content = models.TextField()
     ingredients_field = models.TextField(default='ingredients')
     instructions_field = models.TextField(default='instructions')
     featured_image = CloudinaryField('image', default='placeholder')
