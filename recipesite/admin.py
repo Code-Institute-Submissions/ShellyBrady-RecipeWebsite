@@ -35,3 +35,10 @@ class Submit_RecipeAdmin(admin.ModelAdmin):
         queryset.update(approved=True)
 
     approve_recipes.short_description = "Approve selected recipes"
+
+
+class MyModelAdmin(admin.ModelAdmin):
+    class Media:
+        css = {
+            'all': ('/static/css/admin.css',)
+        }
