@@ -9,8 +9,6 @@ STATUS = ((0, "Draft"), (1, "Published"))
 class Page(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=200, unique=True)
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="posts")
     updated_on = models.DateTimeField(auto_now=True)
     description = models.TextField(default='description')
     ingredients = models.TextField(default='ingredients')
@@ -19,8 +17,6 @@ class Page(models.Model):
     excerpt = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    likes = models.ManyToManyField(
-        User, related_name='post_likes', blank=True)
 
 
 class Post(models.Model):
@@ -38,7 +34,7 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     likes = models.ManyToManyField(
         User, related_name='post_likes', blank=True)
-    Page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    page = models.CharField(max_length=100, default='')
 
 
 class Meta:
