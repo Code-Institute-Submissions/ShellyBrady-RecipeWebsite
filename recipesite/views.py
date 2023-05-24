@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.urls import reverse_lazy
 from django.views import generic, View
+from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
 from .models import Post, Submission, Recipe
 from .forms import CommentForm, SubmissionForm, PostForm
@@ -79,6 +81,11 @@ class PostLike(View):
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 
 
+def approved_recipes(request):
+    recipes = Recipe.objects.filter(status=1)
+    return render(request, 'member_recipes_page.html', {'recipes': recipes})
+
+
 def Submission(request):
     if request.method == 'POST':
         form = SubmissionForm(request.POST)
@@ -87,16 +94,12 @@ def Submission(request):
             Submission.user = request.user
             Submission.is_approved = False
             Submission.save()
-            return redirect('member_recipe_detail', pk=member_recipes.pk)
+            return redirect('member_recipe_detail',)
         else:
-            return render(request, 'Submission.html', {'form': form})
+            return render(request, 'submission.html', {'form': form})
     else:
         form = SubmissionForm()
-        return render(request, 'Submission.html', {'form': form})
-
-
-def member_recipes(request):
-    return render(request, 'member_recipes_page.html')
+        return render(request, 'submission.html', {'form': form})
 
 
 class RecipeList(generic.ListView):
