@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
 from django.http import HttpResponseRedirect, Http404
-from .models import Post, Submit_Recipe, Recipe
-from .forms import CommentForm, Submit_RecipeForm, PostForm
+from .models import Post, Submission, Recipe
+from .forms import CommentForm, SubmissionForm, PostForm
 from django.contrib import messages
 from django.views.generic import DetailView
 
@@ -79,20 +79,20 @@ class PostLike(View):
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 
 
-def submit_recipe(request):
+def Submission(request):
     if request.method == 'POST':
-        form = Submit_RecipeForm(request.POST)
+        form = SubmissionForm(request.POST)
         if form.is_valid():
-            submit_recipe = form.save(commit=False)
-            submit_recipe.user = request.user
-            submit_recipe.is_approved = False
-            submit_recipe.save()
+            Submission = form.save(commit=False)
+            Submission.user = request.user
+            Submission.is_approved = False
+            Submission.save()
             return redirect('member_recipe_detail', pk=member_recipes.pk)
         else:
-            return render(request, 'submit_recipe.html', {'form': form})
+            return render(request, 'Submission.html', {'form': form})
     else:
-        form = Submit_RecipeForm()
-        return render(request, 'submit_recipe.html', {'form': form})
+        form = SubmissionForm()
+        return render(request, 'Submission.html', {'form': form})
 
 
 def member_recipes(request):

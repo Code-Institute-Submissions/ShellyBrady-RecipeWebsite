@@ -61,7 +61,7 @@ class Meta:
     ordering = ['created_on']
 
 
-class Submit_Recipe(models.Model):
+class Submission(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField()
     ingredients = models.TextField()
