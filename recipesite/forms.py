@@ -1,15 +1,7 @@
-from .models import Comment, Post, Submission, Page
+from .models import Comment, Post, Submission, MemberRecipe
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-
-
-class PostForm(forms.ModelForm):
-    page = forms.ModelChoiceField(queryset=Page.objects.all())
-
-    class Meta:
-        model = Post
-        fields = ['title', 'description', 'ingredients', 'instructions', 'page']
 
 
 class CommentForm(forms.ModelForm):

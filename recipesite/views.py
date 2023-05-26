@@ -3,8 +3,8 @@ from django.urls import reverse_lazy
 from django.views import generic, View
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
-from .models import Post, Submission, Recipe
-from .forms import CommentForm, SubmissionForm, PostForm
+from .models import Post, Submission, MemberRecipe
+from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
 from django.views.generic import DetailView
 
@@ -81,11 +81,6 @@ class PostLike(View):
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 
 
-def approved_recipes(request):
-    recipes = Recipe.objects.filter(status=1)
-    return render(request, 'member_recipes_page.html', {'recipes': recipes})
-
-
 def Submission(request):
     if request.method == 'POST':
         form = SubmissionForm(request.POST)
@@ -102,14 +97,14 @@ def Submission(request):
         return render(request, 'submission.html', {'form': form})
 
 
-class RecipeList(generic.ListView):
-    model = Recipe
+class MemberRecipeList(generic.ListView):
+    model = MemberRecipe
     template_name = 'member_recipes_page.html'
-    queryset = Recipe.objects.filter(status=1).order_by('-created_on')
+    queryset = MemberRecipe.objects.filter(status=1).order_by('-created_on')
     paginate_by = 6
 
 
-class RecipeDetailView(DetailView):
+class MemberRecipeDetailView(DetailView):
     def get(self, request, slug, *args, **kwargs):
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
@@ -130,7 +125,7 @@ class RecipeDetailView(DetailView):
             },
         )
 
-    def recipe(self, request, slug, *args, **kwargs):
+    def memberrecipe(self, request, slug, *args, **kwargs):
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
         comments = recipe.comments.filter(approved=True).order_by("-created_on")
@@ -161,7 +156,7 @@ class RecipeDetailView(DetailView):
         )
 
 
-class RecipeLike(View):
+class MemberRecipeLike(View):
 
     def recipe(self, request, slug, *args, **kwargs):
         recipe = get_object_or_404(Post, slug=slug)
