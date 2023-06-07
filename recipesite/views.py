@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic, View
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
-from .models import Post, Submission, MemberRecipe
+from .models import Post, Submission, MemberRecipe, Comment
 from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
 from django.views.generic import DetailView

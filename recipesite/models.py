@@ -73,4 +73,4 @@ class MemberRecipe(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
 
     def __str__(self):
-        return self.titles
+        return self.title
