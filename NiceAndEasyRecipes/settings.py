@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["recipesite.herokuapp.com", "localhost", "8000-shellybrady-recipewebsi-e680ucxvpbq.ws-eu99.gitpod.io"]
+ALLOWED_HOSTS = ["recipesite.herokuapp.com", "localhost", "8000-shellybrady-recipewebsi-e680ucxvpbq.ws-eu98.gitpod.io", "127.0.0.1"]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 

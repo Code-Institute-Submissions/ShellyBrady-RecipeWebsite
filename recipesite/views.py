@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.views.generic.edit import FormView
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from .models import Post, Submission, MemberRecipe, Comment
 from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
@@ -89,7 +89,7 @@ def Submission(request):
             Submission.user = request.user
             Submission.is_approved = False
             Submission.save()
-            return redirect('member_recipe_detail',)
+            return redirect('member_recipes_page.html')
         else:
             return render(request, 'submission.html', {'form': form})
     else:
@@ -104,10 +104,10 @@ class MemberRecipeList(generic.ListView):
     paginate_by = 6
 
 
-class MemberRecipeDetailView(DetailView):
+class MemberRecipeDetail(DetailView):
     def get(self, request, slug, *args, **kwargs):
-        queryset = Recipe.objects.filter(status=1)
-        recipe = get_object_or_404(queryset, slug=slug)
+        queryset = MemberRecipe.objects.filter(status=1)
+        memberrecipe = get_object_or_404(queryset, slug=slug)
         comments = recipe.comments.filter(approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():

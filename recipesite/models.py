@@ -52,7 +52,6 @@ class Submission(models.Model):
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submitter')
     featured_image = CloudinaryField('image', default='placeholder')
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
@@ -63,6 +62,8 @@ class Submission(models.Model):
 
 class MemberRecipe(models.Model):
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True, default="default-slug")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="memberrecipes")
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
