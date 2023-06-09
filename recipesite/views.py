@@ -95,10 +95,10 @@ def Submission(request):
     return render(request, 'submission.html', {'form': form})
 
 
-class MemberRecipeList(generic.ListView):
+class MemberRecipeView(generic.ListView):
     model = MemberRecipe
-    template_name = 'member_recipes_page.html'
     queryset = MemberRecipe.objects.filter(status=1).order_by('-created_on')
+    template_name = 'member_recipes_page.html'
     paginate_by = 6
 
 
@@ -106,9 +106,9 @@ class MemberRecipeDetail(DetailView):
     def get(self, request, slug, *args, **kwargs):
         queryset = MemberRecipe.objects.filter(status=1)
         memberrecipe = get_object_or_404(queryset, slug=slug)
-        comments = recipe.comments.filter(approved=True).order_by("-created_on")
+        comments = memberrecipe.comments.filter(approved=True).order_by("-created_on")
         liked = False
-        if recipe.likes.filter(id=self.request.user.id).exists():
+        if memberrecipe.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         return render(
@@ -124,11 +124,11 @@ class MemberRecipeDetail(DetailView):
         )
 
     def memberrecipe(self, request, slug, *args, **kwargs):
-        queryset = Recipe.objects.filter(status=1)
-        recipe = get_object_or_404(queryset, slug=slug)
-        comments = recipe.comments.filter(approved=True).order_by("-created_on")
+        queryset = MemberRecipe.objects.filter(status=1)
+        memberrecipe = get_object_or_404(queryset, slug=slug)
+        comments = memberrecipe.comments.filter(approved=True).order_by("-created_on")
         liked = False
-        if recipe.likes.filter(id=self.request.user.id).exists():
+        if memberrecipe.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         comment_form = CommentForm(data=request.POST)
@@ -136,7 +136,7 @@ class MemberRecipeDetail(DetailView):
             comment_form.instance.email = request.user.email
             comment_form.instance.name = request.user.username
             comment = comment_form.save(commit=False)
-            comment.recipe = recipe
+            comment.memberrecipe = memberrecipe
             comment.save()
         else:
             comment_form = CommentForm()
@@ -145,7 +145,7 @@ class MemberRecipeDetail(DetailView):
             request,
             "member_recipe_detail.html",
             {
-                "recipe": recipe,
+                "memberrecipe": memberrecipe,
                 "comments": comments,
                 "commented": True,
                 "comment_form": comment_form,
@@ -156,11 +156,11 @@ class MemberRecipeDetail(DetailView):
 
 class MemberRecipeLike(View):
 
-    def recipe(self, request, slug, *args, **kwargs):
-        recipe = get_object_or_404(Post, slug=slug)
-        if recipe.likes.filter(id=request.user.id).exists():
-            recipe.likes.remove(request.user)
+    def memberrecipe(self, request, slug, *args, **kwargs):
+        MemberRecipe = get_object_or_404(Post, slug=slug)
+        if memberrecipe.likes.filter(id=request.user.id).exists():
+            memberrecipe.likes.remove(request.user)
         else:
-            recipe.likes.add(request.user)
+            memberrecipe.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('member_recipe_detail', args=[slug]))

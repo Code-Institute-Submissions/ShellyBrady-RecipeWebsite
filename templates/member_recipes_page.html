@@ -4,7 +4,7 @@
 
 <div class="container-fluid justify-content-center p-0 me-2 ms-2">
     <div class="row justify-content-around vh100"> 
-        <!--recipe entry-->
+        <!--alert message-->
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -12,7 +12,8 @@
             {% endfor %}
         </ul>
         {% endif %}
-        {% for member_recipe in member_recipe_list %}
+        <!--recipe entry-->
+        {% for member_recipe in member_recipe_view %}
         <div class="card-group col-sm-4">
                 <div class="card" style="background-color:#bebcbc;">
                                 {% if "placeholder" in post.featured_image.url %}
@@ -29,8 +30,8 @@
                                 {% endif %}
 
                             <a href="{% url 'member_recipe_detail' member_recipe.slug  %}">
-                                <h3 class="card-header">{{ member_recipe.title }}</h3>
-                                <h4 class="author">{{ member_recipe.user }}</h4>
+                                <h3 class="card-header">{{ memberrecipe.title }}</h3>
+                                <h4 class="author">{{ memberrecipe.user }}</h4>
                             </a>
 
                             <div class="card-footer pb-3" style="background-color: lightgray;">{{ member_recipe.created_on}} <i class="far fa-heart"></i>
@@ -38,12 +39,12 @@
                         </div>       
                 </div>    
                 {% if forloop.counter|divisibleby:2 %}
+
             <div class="row justify-content-around">
                {% endif %}
                {% endfor %}
             </div>
         </div>
-
 </div>        
     {% if is_paginated %}
     <nav aria-label="Page navigation">

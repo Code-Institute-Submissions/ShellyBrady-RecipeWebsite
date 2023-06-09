@@ -63,15 +63,12 @@ class Submission(models.Model):
 class MemberRecipe(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, default="default-slug")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="memberrecipes")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
-    published = models.BooleanField(default=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='member')
     featured_image = CloudinaryField('image', default='placeholder')
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-
-    def __str__(self):
-        return self.title
+    likes = models.ManyToManyField(
+        User, related_name='memberrecipe_likes', blank=True)
