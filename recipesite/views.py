@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
-from django.urls import reverse_lazy
 from django.views import generic, View
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -89,12 +88,10 @@ def Submission(request):
             Submission.user = request.user
             Submission.is_approved = False
             Submission.save()
-            return redirect('member_recipes_page.html')
-        else:
-            return render(request, 'submission.html', {'form': form})
+            return redirect('memberrecipe')
     else:
         form = SubmissionForm()
-        return render(request, 'submission.html', {'form': form})
+    return render(request, 'submission.html', {'form': form})
 
 
 class MemberRecipeList(generic.ListView):
