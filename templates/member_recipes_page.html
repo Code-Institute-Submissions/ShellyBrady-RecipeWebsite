@@ -5,6 +5,13 @@
 <div class="container-fluid justify-content-center p-0 me-2 ms-2">
     <div class="row justify-content-around vh100"> 
         <!--recipe entry-->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% for member_recipe in member_recipe_list %}
         <div class="card-group col-sm-4">
                 <div class="card" style="background-color:#bebcbc;">

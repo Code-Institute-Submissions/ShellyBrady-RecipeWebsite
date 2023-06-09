@@ -88,6 +88,7 @@ def Submission(request):
             Submission.user = request.user
             Submission.is_approved = False
             Submission.save()
+            messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
             return redirect('memberrecipe')
     else:
         form = SubmissionForm()
