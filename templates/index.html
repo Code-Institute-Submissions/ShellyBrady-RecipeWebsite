@@ -46,13 +46,16 @@
     <div class="container">
       <div class="row">
           <div class="col-md-8 offset-md-2">
-              {% for message in messages %}
-              <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
-                  {{ message | safe }}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-              {% endfor %}
-          </div>
+              <!--alert message-->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="alert {{ message.tags }} alert-dismissible fade show" role="alert"{% endif %}>{{ message }}</li>
+            {{ message | safe }}
+            {% endfor %}
+        </ul>
+        {% endif %}
+      
       </div>
     </div>
 
