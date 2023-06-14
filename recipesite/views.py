@@ -97,23 +97,23 @@ def Submission(request):
             Submission = form.save(commit=False)
             Submission.user = request.user
             Submission.is_approved = False
+            Submission.published = False
             Submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
             return redirect('home')
     else:
         form = SubmissionForm()
-    return render(request, 'submission.html', {'form': form})
+    return render(request, 'members_recipes_page.html', {'form': form})
 
 
 class MembersRecipesList(generic.ListView):
     model = MembersRecipes
-    queryset = MembersRecipes.objects.filter(status=1).order_by('-created_on')
     template_name = 'member_recipes_page.html'
     paginate_by = 6
 
 
 def get_membersrecipes(request):
-    queryset = MembersRecipes.objects.filter(is_approved=True)
+    queryset = Submission.objects.filter(is_approved=True, Published=True)
 
     return render(request, 'member_recipes_page.html', {'queryset': queryset})
 
@@ -122,7 +122,7 @@ class MembersRecipesDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
         pk = self.kwargs.get('pk')
-        queryset = MembersRecipes.objects.filter(status=1)
+        queryset = Submission.objects.filter(is_approved=True, Published=True)
         membersrecipes = get_object_or_404(queryset, slug=slug)
         content_type = ContentType.objects.get_for_model(membersrecipes)
         comments = MembersRecipes.objects.filter(is_approved=True).order_by("-created_on")
@@ -143,7 +143,7 @@ class MembersRecipesDetail(View):
         )
 
     def post(self, request, slug, *args, **kwargs):
-        queryset = MembersRecipes.objects.filter(status=1)
+        queryset = Submission.objects.filter(is_approved=True, Published=True)
         membersrecipes = get_object_or_404(queryset, slug=slug)
         comments = membersrecipes.comments.filter(approved=True).order_by("-created_on")
         liked = False
@@ -164,7 +164,7 @@ class MembersRecipesDetail(View):
             request,
             "members_recipes_detail.html",
             {
-                "recipe": recipe,
+                "membersrecipes": membersrecipes,
                 "comments": comments,
                 "commented": True,
                 "comment_form": comment_form,

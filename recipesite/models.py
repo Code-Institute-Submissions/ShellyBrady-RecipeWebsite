@@ -12,7 +12,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, default="anon", related_name="recipes")
+        User, on_delete=models.CASCADE, related_name="recipes")
     updated_on = models.DateTimeField(auto_now=True)
     description = models.TextField(default='description')
     ingredients = models.TextField(default='ingredients')
@@ -57,7 +57,7 @@ class Submission(models.Model):
     instructions = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
     created_on = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS, default=0)
+    published = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
@@ -76,7 +76,7 @@ class MembersRecipes(models.Model):
     featured_image = CloudinaryField('image', default='placeholder')
     excerpt = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS, default=0)
+    publish_recipes = models.BooleanField(default=False)
     likes = models.ManyToManyField(
         User, related_name='memberrecipe_likes', blank=True)
     is_approved = models.BooleanField(default=False)
