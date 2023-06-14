@@ -6,16 +6,16 @@
         <div class="row g-0">
             <div class="col-md-6 masthead-text">
                 <!-- Post title goes in these h1 tags -->
-                <h1 class="post-title">{{ post.title }}</h1>
+                <h1 class="recipe-title">{{ recipe.title }}</h1>
                 <!-- Post author goes before the | the post's created date goes after -->
-                <p class="post-subtitle">{{ post.author }} | {{ post.created_on }}</p>
+                <p class="recipe-subtitle">{{ recipe.author }} | {{ recipe.created_on }}</p>
             </div>
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
-                {% if "placeholder" in post.featured_image.url %}
+                {% if "placeholder" in recipe.featured_image.url %}
                 <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1676972420/pp4recipes/woman-6760877_1280_bdxsqo.jpg" width="100%">
                 {% else %}
-                <img src=" {{ post.featured_image.url }}" width="100%">
+                <img src=" {{ recipe.featured_image.url }}" width="100%">
                 {% endif %}
             </div>
         </div>
@@ -29,8 +29,8 @@
                 <div class="ingredients-title">
                     <h3 >Ingredients</h3>
                 </div>
-                <div class="post-ingredients col card mb-4 mt-3">
-                    <p>{{ post.ingredients | safe }}</p>
+                <div class="recipe-ingredients col card mb-4 mt-3">
+                    <p>{{ recipe.ingredients | safe }}</p>
                 </div>
             </div>
         </div>
@@ -44,8 +44,8 @@
                 <div class="instructions-title">
                     <h3>Instructions</h3>
                 </div>
-                <div class="post-instructions col card mb-2 mt-2">
-                    <p>{{ post.instructions | safe }}</p>
+                <div class="recipe-instructions col card mb-2 mt-2">
+                    <p>{{ recipe.instructions | safe }}</p>
                 </div>
             </div>
         </div>
@@ -57,18 +57,18 @@
                     <div class="col-2">
                         <strong>
                             {% if user.is_authenticated %}
-                            <form class="d-inline" action="{% url 'post_like' post.slug %}" 
+                            <form class="d-inline" action="{% url 'recipe_like' recipe.slug %}" 
                                 method="POST">
                                 {% csrf_token %}
                                 {% if liked %}
 
-                                <button type="submit" name="recipepost_id" value="{{post.slug}}" class="btn-like">
+                                <button type="submit" name="recipe_id" value="{{recipe.slug}}" class="btn-like">
                                     <i class="fas fa-heart"></i> 
                                 </button>
 
                                 {% else %}
 
-                                <button type="submit" name="recipepost_id" value="{{post.slug}}" class="btn-like">
+                                <button type="submit" name="recipe_id" value="{{recipe.slug}}" class="btn-like">
                                     <i class="far fa-heart"></i>
                                 </button>
 
@@ -81,7 +81,7 @@
                             <span class="text-secondary"><i class="far fa-heart"></i></span>
                             {% endif %}
                             <!-- The number of likes goes before the closing strong tag -->
-                            <span class="text-secondary">{{ post.number_of_likes }} </span>
+                            <span class="text-secondary">{{ recipe.number_of_likes }} </span>
                         </strong>
                     </div>
 

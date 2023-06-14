@@ -1,12 +1,11 @@
 from . import views
 from django.urls import path
-from .views import Submission, Post, MemberRecipe
+from .views import Submission, Recipe
 
 urlpatterns = [
-    path('', views.PostList.as_view(), name='home'),
+    path('', views.RecipeList.as_view(), name='home'),
+    path('recipe/', views.RecipeList.as_view, name='recipe'),
     path('submit/', views.Submission, name='submit'),
-    path('memberrecipe/', views.MemberRecipeView.as_view(), name='memberrecipe'),
-    path('<slug:slug>/', views.MemberRecipeDetail.as_view(), name='member_recipe_detail'),
-    path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
-    path('like/<slug:slug>', views.PostLike.as_view(), name='post_like'),
+    path('<slug:slug>/', views.RecipeDetail.as_view(), name='recipe_detail'),
+    path('like/<slug:slug>', views.RecipeLike.as_view(), name='recipe_like'),
 ]

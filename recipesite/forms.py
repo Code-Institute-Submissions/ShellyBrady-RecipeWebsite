@@ -1,4 +1,4 @@
-from .models import Comment, Post, Submission, MemberRecipe
+from .models import Comment, Recipe, Submission
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit

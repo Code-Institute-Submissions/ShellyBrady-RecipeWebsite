@@ -1,35 +1,38 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
+from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from .models import Post, Submission, MemberRecipe, Comment
+from .models import Recipe, Submission, Comment
 from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
 from django.views.generic import DetailView
 
 
-class PostList(generic.ListView):
-    model = Post
-    queryset = Post.objects.filter(status=1).order_by('-created_on')
+class RecipeList(generic.ListView):
+    model = Recipe
+    queryset = Recipe.objects.filter(status=1).order_by('-created_on')
     template_name = 'recipes.html'
     paginate_by = 6
 
 
-class PostDetail(View):
+class RecipeDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
-        queryset = Post.objects.filter(status=1)
-        post = get_object_or_404(queryset, slug=slug)
-        comments = post.comments.filter(approved=True).order_by("-created_on")
+        pk = self.kwargs.get('pk')
+        queryset = Recipe.objects.filter(status=1)
+        recipe = get_object_or_404(Recipe, slug=slug)
+        content_type = ContentType.objects.get_for_model(recipe)
+        comments = recipe.objects.filter(approved=True).order_by("-created_on")
         liked = False
-        if post.likes.filter(id=self.request.user.id).exists():
+        if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         return render(
             request,
-            "post_detail.html",
+            "recipe_detail.html",
             {
-                "post": post,
+                "recipe": recipe,
                 "comments": comments,
                 "commented": False,
                 "liked": liked,
@@ -38,11 +41,11 @@ class PostDetail(View):
         )
 
     def post(self, request, slug, *args, **kwargs):
-        queryset = Post.objects.filter(status=1)
-        post = get_object_or_404(queryset, slug=slug)
-        comments = post.comments.filter(approved=True).order_by("-created_on")
+        queryset = Recipe.objects.filter(status=1)
+        recipe = get_object_or_404(queryset, slug=slug)
+        comments = recipe.comments.filter(approved=True).order_by("-created_on")
         liked = False
-        if post.likes.filter(id=self.request.user.id).exists():
+        if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         comment_form = CommentForm(data=request.POST)
@@ -50,16 +53,16 @@ class PostDetail(View):
             comment_form.instance.email = request.user.email
             comment_form.instance.name = request.user.username
             comment = comment_form.save(commit=False)
-            comment.post = post
+            comment.recipe = recipe
             comment.save()
         else:
             comment_form = CommentForm()
 
         return render(
             request,
-            "post_detail.html",
+            "recipe_detail.html",
             {
-                "post": post,
+                "recipe": recipe,
                 "comments": comments,
                 "commented": True,
                 "comment_form": comment_form,
@@ -68,16 +71,16 @@ class PostDetail(View):
         )
 
 
-class PostLike(View):
+class RecipeLike(View):
 
     def post(self, request, slug, *args, **kwargs):
-        post = get_object_or_404(Post, slug=slug)
-        if post.likes.filter(id=request.user.id).exists():
-            post.likes.remove(request.user)
+        recipe = get_object_or_404(Recipe, slug=slug)
+        if recipe.likes.filter(id=request.user.id).exists():
+            recipe.likes.remove(request.user)
         else:
-            post.likes.add(request.user)
+            recipe.likes.add(request.user)
 
-        return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
 
 def Submission(request):
@@ -89,78 +92,7 @@ def Submission(request):
             Submission.is_approved = False
             Submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
-            return redirect('memberrecipe')
+            return redirect('recipe')
     else:
         form = SubmissionForm()
     return render(request, 'submission.html', {'form': form})
-
-
-class MemberRecipeView(generic.ListView):
-    model = MemberRecipe
-    queryset = MemberRecipe.objects.filter(status=1).order_by('-created_on')
-    template_name = 'member_recipes_page.html'
-    paginate_by = 6
-
-
-class MemberRecipeDetail(DetailView):
-    def get(self, request, slug, *args, **kwargs):
-        queryset = MemberRecipe.objects.filter(status=1)
-        memberrecipe = get_object_or_404(queryset, slug=slug)
-        comments = memberrecipe.comments.filter(approved=True).order_by("-created_on")
-        liked = False
-        if memberrecipe.likes.filter(id=self.request.user.id).exists():
-            liked = True
-
-        return render(
-            request,
-            "member_recipe_detail.html",
-            {
-                "recipe": recipe,
-                "comments": comments,
-                "commented": False,
-                "liked": liked,
-                "comment_form": CommentForm()
-            },
-        )
-
-    def memberrecipe(self, request, slug, *args, **kwargs):
-        queryset = MemberRecipe.objects.filter(status=1)
-        memberrecipe = get_object_or_404(queryset, slug=slug)
-        comments = memberrecipe.comments.filter(approved=True).order_by("-created_on")
-        liked = False
-        if memberrecipe.likes.filter(id=self.request.user.id).exists():
-            liked = True
-
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            comment_form.instance.email = request.user.email
-            comment_form.instance.name = request.user.username
-            comment = comment_form.save(commit=False)
-            comment.memberrecipe = memberrecipe
-            comment.save()
-        else:
-            comment_form = CommentForm()
-
-        return render(
-            request,
-            "member_recipe_detail.html",
-            {
-                "memberrecipe": memberrecipe,
-                "comments": comments,
-                "commented": True,
-                "comment_form": comment_form,
-                "liked": liked
-            },
-        )
-
-
-class MemberRecipeLike(View):
-
-    def memberrecipe(self, request, slug, *args, **kwargs):
-        MemberRecipe = get_object_or_404(Post, slug=slug)
-        if memberrecipe.likes.filter(id=request.user.id).exists():
-            memberrecipe.likes.remove(request.user)
-        else:
-            memberrecipe.likes.add(request.user)
-
-        return HttpResponseRedirect(reverse('member_recipe_detail', args=[slug]))

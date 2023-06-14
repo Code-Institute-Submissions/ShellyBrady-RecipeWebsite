@@ -13,29 +13,29 @@
         </ul>
         {% endif %}
         <!--recipe entry-->
-        {% for post in post_list %}
+        {% for member_recipe in menber_recipe_view %}
         <div class="card-group col-sm-4">
                 <div class="card" style="background-color:#bebcbc;">
-                                {% if "placeholder" in post.featured_image.url %}
+                                {% if "placeholder" in .featured_image.url %}
                                 <img class="card-img-top"
                                     src="https://res.cloudinary.com/dhifyjuus/image/upload/v1677244923/enrdln0vg7f2igyturbd.jpg">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>    
                                 {% else %}  
-                                <img class="card-img-top" src="{{ member_recipe.featured_image.url }}">
+                                <img class="card-img-top" src="{{ .featured_image.url }}">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>
                                 {% endif %}
 
-                            <a href="{% url 'post_detail' post.slug  %}">
-                                <h3 class="card-header">{{ post.title }}</h3>
-                                <h4 class="author">{{ post.author }}</h4>
+                            <a href="{% url .slug  %}">
+                                <h3 class="card-header">{{ .title }}</h3>
+                                <h4 class="author">{{ .author }}</h4>
                             </a>
 
-                            <div class="card-footer pb-3" style="background-color: lightgray;">{{ post.created_on}} <i class="far fa-heart"></i>
-                                 {{ post.number_of_likes }}</div>
+                            <div class="card-footer pb-3" style="background-color: lightgray;">{{ recipe.created_on}} <i class="far fa-heart"></i>
+                                 {{ .number_of_likes }}</div>
                         </div>       
                 </div>    
                 {% if forloop.counter|divisibleby:2 %}

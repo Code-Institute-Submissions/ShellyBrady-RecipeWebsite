@@ -122,8 +122,8 @@ body.container-fluid {
     color: darkslategray;
 }
 
-.post-ingredients.col.card.mb-4.mt-3, 
-.post-instructions.col.card.mb-2.mt-2 {
+.recipe-ingredients.col.card.mb-4.mt-3, 
+.recipe-instructions.col.card.mb-2.mt-2 {
     text-align: Left;
     padding: 1%;
     color: darkslategray;
