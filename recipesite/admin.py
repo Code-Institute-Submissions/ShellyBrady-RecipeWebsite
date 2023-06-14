@@ -6,11 +6,15 @@ from django_summernote.admin import SummernoteModelAdmin
 @admin.register(Recipe)
 class RecipeAdmin(SummernoteModelAdmin):
 
-    list_display = ('title', 'slug', 'status', 'created_on')
+    list_display = ('title', 'slug', 'status', 'created_on', 'is_approved')
     search_fields = ['title', 'ingredients']
     prepopulated_fields = {'slug': ('title',)}
-    list_filter = ('status', 'created_on', 'approved')
+    list_filter = ('status', 'created_on')
     summernote_fields = ('recipe',)
+    actions = ['approve_recipes', 'publish_recipes']
+
+    def approve_recipes(self, request, queryset):
+        queryset.update(approved=True)
 
 
 @admin.register(Comment)
@@ -26,10 +30,10 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'ingredients', 'instructions', 'created_on', 'status', )
-    list_filter = ('status', 'created_on')
-    search_fields = ('author', 'email', 'body')
-    actions = ['approve_recipes']
+    list_display = ('title', 'description', 'ingredients', 'instructions', 'created_on', 'status')
+    list_filter = ('status', 'created_on', 'approved')
+    search_fields = ('name', 'email', 'body')
+    actions = ['approve_recipes', 'publish_recipes']
 
     def approve_recipes(modeladmin, request, queryset):
         queryset.update(approved=True)

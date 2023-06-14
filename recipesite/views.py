@@ -3,7 +3,7 @@ from django.views import generic, View
 from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from .models import Recipe, Submission, Comment
+from .models import Recipe, Submission, Comment, MembersRecipes
 from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
 from django.views.generic import DetailView
@@ -16,14 +16,21 @@ class RecipeList(generic.ListView):
     paginate_by = 6
 
 
+def get_recipe(request):
+
+    queryset = Recipe.objects.filter(is_approved=True)
+
+    return render(request, 'index.html', {'queryset': queryset})
+
+
 class RecipeDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
         pk = self.kwargs.get('pk')
         queryset = Recipe.objects.filter(status=1)
-        recipe = get_object_or_404(Recipe, slug=slug)
+        recipe = get_object_or_404(queryset, slug=slug)
         content_type = ContentType.objects.get_for_model(recipe)
-        comments = Recipe.objects.filter(approved=True).order_by("-created_on")
+        comments = Recipe.objects.filter(is_approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -96,3 +103,71 @@ def Submission(request):
     else:
         form = SubmissionForm()
     return render(request, 'submission.html', {'form': form})
+
+
+class MembersRecipesList(generic.ListView):
+    model = MembersRecipes
+    queryset = MembersRecipes.objects.filter(status=1).order_by('-created_on')
+    template_name = 'member_recipes_page.html'
+    paginate_by = 6
+
+
+def get_membersrecipes(request):
+    queryset = MembersRecipes.objects.filter(is_approved=True)
+
+    return render(request, 'member_recipes_page.html', {'queryset': queryset})
+
+
+class MembersRecipesDetail(View):
+
+    def get(self, request, slug, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        queryset = MembersRecipes.objects.filter(status=1)
+        membersrecipes = get_object_or_404(queryset, slug=slug)
+        content_type = ContentType.objects.get_for_model(membersrecipes)
+        comments = MembersRecipes.objects.filter(is_approved=True).order_by("-created_on")
+        liked = False
+        if recipe.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        return render(
+            request,
+            "members_recipes_detail.html",
+            {
+                "membersrecipes": membersrecipes,
+                "comments": comments,
+                "commented": False,
+                "liked": liked,
+                "comment_form": CommentForm()
+            },
+        )
+
+    def post(self, request, slug, *args, **kwargs):
+        queryset = MembersRecipes.objects.filter(status=1)
+        membersrecipes = get_object_or_404(queryset, slug=slug)
+        comments = membersrecipes.comments.filter(approved=True).order_by("-created_on")
+        liked = False
+        if recipe.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            comment_form.instance.email = request.user.email
+            comment_form.instance.name = request.user.username
+            comment = comment_form.save(commit=False)
+            comment.recipe = recipe
+            comment.save()
+        else:
+            comment_form = CommentForm()
+
+        return render(
+            request,
+            "members_recipes_detail.html",
+            {
+                "recipe": recipe,
+                "comments": comments,
+                "commented": True,
+                "comment_form": comment_form,
+                "liked": liked
+            },
+        )

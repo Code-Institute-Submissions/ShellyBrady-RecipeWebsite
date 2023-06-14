@@ -23,7 +23,7 @@ class Recipe(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     likes = models.ManyToManyField(
         User, related_name='recipe_likes', blank=True)
-    approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_on"]
@@ -58,6 +58,34 @@ class Submission(models.Model):
     featured_image = CloudinaryField('image', default='placeholder')
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
+
+class MembersRecipes(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, default="anon", related_name="members")
+    updated_on = models.DateTimeField(auto_now=True)
+    description = models.TextField(default='description')
+    ingredients = models.TextField(default='ingredients')
+    instructions = models.TextField(default='instructions')
+    featured_image = CloudinaryField('image', default='placeholder')
+    excerpt = models.TextField(blank=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS, default=0)
+    likes = models.ManyToManyField(
+        User, related_name='memberrecipe_likes', blank=True)
+    is_approved = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-created_on"]
+
+    def __str__(self):
+        return self.title
+
+    def number_of_likes(self):
+        return self.likes.count()

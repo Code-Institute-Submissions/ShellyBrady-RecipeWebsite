@@ -13,7 +13,7 @@
         </ul>
         {% endif %}
         <!--recipe entry-->
-        {% for member_recipe in menber_recipe_view %}
+        {% for membersrecipes in members_recipes_list %}
         <div class="card-group col-sm-4">
                 <div class="card" style="background-color:#bebcbc;">
                                 {% if "placeholder" in .featured_image.url %}
@@ -29,9 +29,9 @@
                                 </a>
                                 {% endif %}
 
-                            <a href="{% url .slug  %}">
-                                <h3 class="card-header">{{ .title }}</h3>
-                                <h4 class="author">{{ .author }}</h4>
+                            <a href="{% url membersrecipes.slug  %}">
+                                <h3 class="card-header">{{ membersrecipes.title }}</h3>
+                                <h4 class="author">{{ membersrecipes.author }}</h4>
                             </a>
 
                             <div class="card-footer pb-3" style="background-color: lightgray;">{{ recipe.created_on}} <i class="far fa-heart"></i>
