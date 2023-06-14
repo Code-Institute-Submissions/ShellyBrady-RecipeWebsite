@@ -23,7 +23,7 @@ class RecipeDetail(View):
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(Recipe, slug=slug)
         content_type = ContentType.objects.get_for_model(recipe)
-        comments = recipe.objects.filter(approved=True).order_by("-created_on")
+        comments = Recipe.objects.filter(approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -92,7 +92,7 @@ def Submission(request):
             Submission.is_approved = False
             Submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
-            return redirect('recipe')
+            return redirect('home')
     else:
         form = SubmissionForm()
     return render(request, 'submission.html', {'form': form})

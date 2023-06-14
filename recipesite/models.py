@@ -23,7 +23,7 @@ class Recipe(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     likes = models.ManyToManyField(
         User, related_name='recipe_likes', blank=True)
-
+    approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_on"]
