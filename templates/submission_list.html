@@ -13,29 +13,29 @@
         </ul>
         {% endif %}
         <!--recipe entry-->
-        {% for members_recipes in members_recipes_list %}
+        {% for submission in submissions %}
         <div class="card-group col-sm-4">
                 <div class="card" style="background-color:#bebcbc;">
-                                {% if "placeholder" in members_recipes.featured_image.url %}
+                                {% if "placeholder" in submission.featured_image.url %}
                                 <img class="card-img-top"
                                     src="https://res.cloudinary.com/dhifyjuus/image/upload/v1677244923/enrdln0vg7f2igyturbd.jpg">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>    
                                 {% else %}  
-                                <img class="card-img-top" src="{{ members_recipes.featured_image.url }}">
+                                <img class="card-img-top" src="{{ submission.featured_image.url }}">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>
                                 {% endif %}
 
-                            <a href="{% url members_recipes.slug  %}">
-                                <h3 class="card-header">{{ members_recipes.title }}</h3>
-                                <h4 class="author">{{ members_recipes.author }}</h4>
+                            <a href="{% url submission.slug  %}">
+                                <h3 class="card-header">{{ submission.title }}</h3>
+                                <h4 class="author">{{ submission.author }}</h4>
                             </a>
 
-                            <div class="card-footer pb-3" style="background-color: lightgray;">{{ members_recipes.created_on}} <i class="far fa-heart"></i>
-                                 {{ members_recipes.number_of_likes }}</div>
+                            <div class="card-footer pb-3" style="background-color: lightgray;">{{ submission.created_on}} <i class="far fa-heart"></i>
+                                 {{ submission.number_of_likes }}</div>
                         </div>       
                 </div>    
                 {% if forloop.counter|divisibleby:2 %}

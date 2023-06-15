@@ -3,7 +3,7 @@ from django.views import generic, View
 from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from .models import Recipe, Submission, Comment, MembersRecipes
+from .models import Recipe, Submission, Comment
 from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
 from django.views.generic import DetailView
@@ -90,51 +90,50 @@ class RecipeLike(View):
         return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
 
-def Submission(request):
+def create_submission(request):
     if request.method == 'POST':
         form = SubmissionForm(request.POST)
         if form.is_valid():
             Submission = form.save(commit=False)
             Submission.user = request.user
-            Submission.is_approved = False
-            Submission.published = False
             Submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
-            return redirect('home')
+            return redirect('submission_detail', pk=post.pk)
     else:
         form = SubmissionForm()
-    return render(request, 'members_recipes_page.html', {'form': form})
+    return render(request, 'submission.html', {'form': form})
 
 
-class MembersRecipesList(generic.ListView):
-    model = MembersRecipes
-    template_name = 'member_recipes_page.html'
+class SubmissionListView(generic.ListView):
+    model = Submission
+    template_name = 'submission_list.html'
+    context_object_name = 'submission'
     paginate_by = 6
 
 
-def get_membersrecipes(request):
-    queryset = Submission.objects.filter(is_approved=True, Published=True)
+def get_submissions(request):
+    queryset = Submission.objects.filter(Published=True)
 
-    return render(request, 'member_recipes_page.html', {'queryset': queryset})
+    return render(request, 'submission_list.html', {'queryset': queryset})
 
 
-class MembersRecipesDetail(View):
+class SubmissionDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
         pk = self.kwargs.get('pk')
-        queryset = Submission.objects.filter(is_approved=True, Published=True)
-        membersrecipes = get_object_or_404(queryset, slug=slug)
-        content_type = ContentType.objects.get_for_model(membersrecipes)
-        comments = MembersRecipes.objects.filter(is_approved=True).order_by("-created_on")
+        queryset = Submission.objects.filter(Published=True)
+        submission = get_object_or_404(queryset, slug=slug)
+        content_type = ContentType.objects.get_for_model(Submission)
+        comments = Submission.objects.filter(is_approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         return render(
             request,
-            "members_recipes_detail.html",
+            "submission_detail.html",
             {
-                "membersrecipes": membersrecipes,
+                "submission": submission,
                 "comments": comments,
                 "commented": False,
                 "liked": liked,
@@ -144,8 +143,8 @@ class MembersRecipesDetail(View):
 
     def post(self, request, slug, *args, **kwargs):
         queryset = Submission.objects.filter(is_approved=True, Published=True)
-        membersrecipes = get_object_or_404(queryset, slug=slug)
-        comments = membersrecipes.comments.filter(approved=True).order_by("-created_on")
+        submission = get_object_or_404(queryset, slug=slug)
+        comments = submission.comments.filter(approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -162,9 +161,9 @@ class MembersRecipesDetail(View):
 
         return render(
             request,
-            "members_recipes_detail.html",
+            "submission_detail.html",
             {
-                "membersrecipes": membersrecipes,
+                "submission": submission,
                 "comments": comments,
                 "commented": True,
                 "comment_form": comment_form,

@@ -62,13 +62,13 @@
                                 {% csrf_token %}
                                 {% if liked %}
 
-                                <button type="submit" name="recipe_id" value="{{membersrecipeslug}}" class="btn-like">
+                                <button type="submit" name="recipe_id" value="{{submission.slug}}" class="btn-like">
                                     <i class="fas fa-heart"></i> 
                                 </button>
 
                                 {% else %}
 
-                                <button type="submit" name="recipe_id" value="{{membersrecipes.slug}}" class="btn-like">
+                                <button type="submit" name="recipe_id" value="{{submission.slug}}" class="btn-like">
                                     <i class="far fa-heart"></i>
                                 </button>
 
