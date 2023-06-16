@@ -3,6 +3,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.db.models import Count
+from django.utils.text import slugify
 
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -60,8 +62,7 @@ class Submission(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, default=1, related_name="memberrecipes")
     created_on = models.DateTimeField(auto_now_add=True)
-    published = models.BooleanField(default=False)
-    approved = models.BooleanField(default=False)
+    status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
         ordering = ["-created_on"]
@@ -71,3 +72,20 @@ class Submission(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
+
+
+def find_duplicate_slugs():
+    duplicates = Submission.objects.values('slug').annotate(count=Count('id')).filter(count__gt=1)
+
+    for duplicate in duplicates:
+        print(f"Duplicate slug '{duplicate['slug']}' found {duplicate['count']} times.")
+
+
+def update_submission_slugs():
+    submissions = Submission.objects.all()
+
+    for submission in submissions:
+        if submission.slug == 'default-slug':
+            submission.slug = slugify(submission.title)
+
+        submission.save()

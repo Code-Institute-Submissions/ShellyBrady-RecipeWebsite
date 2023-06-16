@@ -26,12 +26,12 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_on', 'published')
-    list_filter = ('published', 'created_on')
+    list_display = ('title', 'created_on', 'status')
+    list_filter = ('status', 'created_on')
     search_fields = ('name', 'email', 'body')
     actions = ['publish_recipes']
 
     def publish_recipes(modeladmin, request, queryset):
-        queryset.update(published=True)
+        queryset.update(status=1)
 
     publish_recipes.short_description = "Publish selected recipes"

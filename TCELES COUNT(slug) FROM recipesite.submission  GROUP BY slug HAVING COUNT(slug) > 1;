@@ -1,0 +1,27 @@
+          table_name           
+-------------------------------
+ django_migrations
+ django_content_type
+ auth_permission
+ auth_group
+ auth_group_permissions
+ auth_user_groups
+ auth_user_user_permissions
+ auth_user
+ pg_stat_statements
+ django_admin_log
+ django_session
+ account_emailaddress
+ account_emailconfirmation
+ django_summernote_attachment
+ recipesite_comment
+ django_site
+ socialaccount_socialaccount
+ socialaccount_socialapp
+ socialaccount_socialapp_sites
+ recipesite_recipe
+ recipesite_submission
+ socialaccount_socialtoken
+ recipesite_recipe_likes
+(23 rows)
+
