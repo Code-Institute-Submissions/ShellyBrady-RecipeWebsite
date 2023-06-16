@@ -54,7 +54,7 @@ class Comment(models.Model):
 
 class Submission(models.Model):
     title = models.CharField(max_length=120)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, default=1)
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
@@ -72,20 +72,3 @@ class Submission(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
-
-
-def find_duplicate_slugs():
-    duplicates = Submission.objects.values('slug').annotate(count=Count('id')).filter(count__gt=1)
-
-    for duplicate in duplicates:
-        print(f"Duplicate slug '{duplicate['slug']}' found {duplicate['count']} times.")
-
-
-def update_submission_slugs():
-    submissions = Submission.objects.all()
-
-    for submission in submissions:
-        if submission.slug == 'default-slug':
-            submission.slug = slugify(submission.title)
-
-        submission.save()
