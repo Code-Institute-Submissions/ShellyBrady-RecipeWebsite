@@ -52,10 +52,13 @@ class Comment(models.Model):
 
 class Submission(models.Model):
     title = models.CharField(max_length=120)
+    slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, default=1, related_name="memberrecipes")
     created_on = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)

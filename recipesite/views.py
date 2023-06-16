@@ -18,7 +18,7 @@ class RecipeList(generic.ListView):
 
 def get_recipe(request):
 
-    queryset = Recipe.objects.filter(is_approved=True)
+    queryset = Recipe.objects.filter(status=1)
 
     return render(request, 'index.html', {'queryset': queryset})
 
@@ -90,6 +90,19 @@ class RecipeLike(View):
         return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
 
+class SubmissionListView(generic.ListView):
+    model = Submission
+    form_class = SubmissionForm
+    template_name = 'submission_list.html'
+    context_object_name = 'submission_list'
+    paginate_by = 6
+
+
+def get_submission(request):
+    submission_queryset = Submission.objects.filter(status=1)
+    return render(request, 'index.html', {'submission_queryset': queryset})
+
+
 def create_submission(request):
     if request.method == 'POST':
         form = SubmissionForm(request.POST)
@@ -98,30 +111,18 @@ def create_submission(request):
             Submission.user = request.user
             Submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
-            return redirect('submission_detail', pk=post.pk)
+        return redirect('submission_list', pk=submission.pk)
     else:
         form = SubmissionForm()
+
     return render(request, 'submission.html', {'form': form})
-
-
-class SubmissionListView(generic.ListView):
-    model = Submission
-    template_name = 'submission_list.html'
-    context_object_name = 'submission'
-    paginate_by = 6
-
-
-def get_submissions(request):
-    queryset = Submission.objects.filter(Published=True)
-
-    return render(request, 'submission_list.html', {'queryset': queryset})
 
 
 class SubmissionDetail(View):
 
     def get(self, request, slug, *args, **kwargs):
         pk = self.kwargs.get('pk')
-        queryset = Submission.objects.filter(Published=True)
+        queryset = Submission.objects.filter(status=1)
         submission = get_object_or_404(queryset, slug=slug)
         content_type = ContentType.objects.get_for_model(Submission)
         comments = Submission.objects.filter(is_approved=True).order_by("-created_on")
@@ -142,7 +143,7 @@ class SubmissionDetail(View):
         )
 
     def post(self, request, slug, *args, **kwargs):
-        queryset = Submission.objects.filter(is_approved=True, Published=True)
+        queryset = Submission.objects.filter(status=1)
         submission = get_object_or_404(queryset, slug=slug)
         comments = submission.comments.filter(approved=True).order_by("-created_on")
         liked = False
