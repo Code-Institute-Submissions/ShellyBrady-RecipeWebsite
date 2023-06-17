@@ -4,7 +4,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.db.models import Count
-from django.utils.text import slugify
 
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -59,16 +58,14 @@ class Submission(models.Model):
     ingredients = models.TextField()
     instructions = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, default=1, related_name="memberrecipes")
+    username = models.ForeignKey(
+        User, on_delete=models.CASCADE, default=1, related_name="submitter")
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
         ordering = ["-created_on"]
+        verbose_name_plural = 'Submissions'
 
     def __str__(self):
         return self.title
-
-    def number_of_likes(self):
-        return self.likes.count()

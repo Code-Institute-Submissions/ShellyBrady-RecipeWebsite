@@ -6,16 +6,16 @@
         <div class="row g-0">
             <div class="col-md-6 masthead-text">
                 <!-- Post title goes in these h1 tags -->
-                <h1 class="obj-title">{{ obj.title }}</h1>
+                <h1 class="recipe-title">{{ submission.title }}</h1>
                 <!-- Post author goes before the | the post's created date goes after -->
-                <p class="obj-subtitle">{{ obj.author }} | {{ obj.created_on }}</p>
+                <p class="recipe-subtitle">{{ submission.username }} | {{ submission.created_on }}</p>
             </div>
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
-                {% if "placeholder" in obj.featured_image.url %}
+                {% if "placeholder" in submission.featured_image.url %}
                 <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1676972420/pp4recipes/woman-6760877_1280_bdxsqo.jpg" width="100%">
                 {% else %}
-                <img src=" {{ obj.featured_image.url }}" width="100%">
+                <img src=" {{ submission.featured_image.url }}" width="100%">
                 {% endif %}
             </div>
         </div>
@@ -30,7 +30,7 @@
                     <h3 >Ingredients</h3>
                 </div>
                 <div class="recipe-ingredients col card mb-4 mt-3">
-                    <p>{{ obj.ingredients | safe }}</p>
+                    <p>{{ submission.ingredients | safe }}</p>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     <h3>Instructions</h3>
                 </div>
                 <div class="recipe-instructions col card mb-2 mt-2">
-                    <p>{{ obj.instructions | safe }}</p>
+                    <p>{{ submission.instructions | safe }}</p>
                 </div>
             </div>
         </div>
@@ -57,18 +57,18 @@
                     <div class="col-2">
                         <strong>
                             {% if user.is_authenticated %}
-                            <form class="d-inline" action="{% url 'recipe_like' recipe.slug %}" 
+                            <form class="d-inline" action="{% url 'submission_like' submission_like.slug %}" 
                                 method="POST">
                                 {% csrf_token %}
                                 {% if liked %}
 
-                                <button type="submit" name="recipe_id" value="{{obj.slug}}" class="btn-like">
+                                <button type="submit" name="recipe_id" value="{{submission.slug}}" class="btn-like">
                                     <i class="fas fa-heart"></i> 
                                 </button>
 
                                 {% else %}
 
-                                <button type="submit" name="recipe_id" value="{{obj.slug}}" class="btn-like">
+                                <button type="submit" name="recipe_id" value="{{submission.slug}}" class="btn-like">
                                     <i class="far fa-heart"></i>
                                 </button>
 
@@ -81,7 +81,7 @@
                             <span class="text-secondary"><i class="far fa-heart"></i></span>
                             {% endif %}
                             <!-- The number of likes goes before the closing strong tag -->
-                            <span class="text-secondary">{{ recipe.number_of_likes }} </span>
+                            <span class="text-secondary">{{ submission.number_of_likes }} </span>
                         </strong>
                     </div>
 
