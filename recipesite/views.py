@@ -114,11 +114,11 @@ def create_submission(request):
     if request.method == 'POST':
         form = SubmissionForm(request.POST)
         if form.is_valid():
-            Submission = form.save(commit=False)
-            Submission.user = request.user
-            Submission.save()
+            submission = form.save(commit=False)
+            submission.username = request.user
+            submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
-        return redirect('submission_list', slug=submission.slug)
+        return redirect('submission_list')
     else:
         form = SubmissionForm()
 
@@ -132,7 +132,7 @@ class SubmissionDetail(View):
         queryset = Submission.objects.filter(status=1)
         submission = get_object_or_404(queryset, pk=pk)
         content_type = ContentType.objects.get_for_model(Submission)
-        comments = Submission.objects.filter(is_approved=True).order_by("-created_on")
+        comments = Comment.objects.filter(approved=True).order_by("-created_on")
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -142,6 +142,7 @@ class SubmissionDetail(View):
             "submission_detail.html",
             {
                 "submission": submission,
+                "submission_like": submission_like,
                 "comments": comments,
                 "commented": False,
                 "liked": liked,
@@ -152,7 +153,7 @@ class SubmissionDetail(View):
     def post(self, request, pk, *args, **kwargs):
         queryset = Submission.objects.filter(status=1)
         submission = get_object_or_404(queryset, pk=pk)
-        comments = submission.comments.filter(approved=True).order_by("-created_on")
+        comments = comment.comments.filter(approved=True).order_by("-created_on")
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -183,7 +184,7 @@ class SubmissionDetail(View):
 class SubmissionLike(View):
 
     def post(self, request, slug, *args, **kwargs):
-        submission = get_object_or_404(Recipe, slug=slug)
+        submission = get_object_or_404(Submission, slug=slug)
         if submission.likes.filter(id=request.user.id).exists():
             submission.likes.remove(request.user)
         else:
