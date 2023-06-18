@@ -99,7 +99,7 @@ class SubmissionListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['submissions'] = Submission.objects.all()
+        context['submissions'] = Submission.objects.filter(status=1)
         return context
 
 
