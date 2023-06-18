@@ -136,6 +136,7 @@ class SubmissionDetail(View):
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
+        submission_like = {"slug": submission_like.slug}
 
         return render(
             request,
@@ -153,7 +154,8 @@ class SubmissionDetail(View):
     def post(self, request, pk, *args, **kwargs):
         queryset = Submission.objects.filter(status=1)
         submission = get_object_or_404(queryset, pk=pk)
-        comments = comment.comments.filter(approved=True).order_by("-created_on")
+        comment = None
+        comments = Comment.objects.filter(approved=True).order_by("-created_on")
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -163,7 +165,7 @@ class SubmissionDetail(View):
             comment_form.instance.email = request.user.email
             comment_form.instance.name = request.user.username
             comment = comment_form.save(commit=False)
-            comment.recipe = recipe
+            comment.submission = submission
             comment.save()
         else:
             comment_form = CommentForm()
