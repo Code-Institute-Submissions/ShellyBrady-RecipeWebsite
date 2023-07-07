@@ -29,8 +29,9 @@ class RecipeDetail(View):
         pk = self.kwargs.get('pk')
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
+        title = request.GET.get('title')
         content_type = ContentType.objects.get_for_model(recipe)
-        comments = Recipe.objects.filter(is_approved=True).order_by("-created_on")
+        comments = Recipe.objects.filter(title=title, approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -129,21 +130,20 @@ class SubmissionDetail(View):
 
     def get(self, request, pk, *args, **kwargs):
         pk = self.kwargs.get('pk')
+        title = request.GET.get('title')
         queryset = Submission.objects.filter(status=1)
-        submission = get_object_or_404(queryset, pk=pk)
+        submission = get_object_or_404(Submission, slug=pk)
         content_type = ContentType.objects.get_for_model(Submission)
-        comments = Comment.objects.filter(approved=True).order_by("-created_on")
+        comments = Submission.objects.filter(title=title).order_by("-created_on")
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
-        submission_like = {"slug": submission_like.slug}
 
         return render(
             request,
             "submission_detail.html",
             {
                 "submission": submission,
-                "submission_like": submission_like,
                 "comments": comments,
                 "commented": False,
                 "liked": liked,

@@ -3,7 +3,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-from django.db.models import Count
+from django.db.models.signals import pre_save
+from django.template.defaultfilters import slugify
 
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -24,7 +25,7 @@ class Recipe(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     likes = models.ManyToManyField(
         User, related_name='recipe_likes', blank=True)
-    is_approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_on"]
@@ -37,7 +38,9 @@ class Recipe(models.Model):
 
 
 class Comment(models.Model):
+    submission = models.ForeignKey('Submission', related_name='comments', on_delete=models.CASCADE, null=True)
     recipe = models.ForeignKey('Recipe', related_name='comments', on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=200, default="no title")
     name = models.CharField(max_length=100, default="anon")
     email = models.EmailField()
     body = models.TextField()
@@ -53,7 +56,7 @@ class Comment(models.Model):
 
 class Submission(models.Model):
     title = models.CharField(max_length=120)
-    slug = models.SlugField(max_length=200, default=1)
+    slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
@@ -61,7 +64,7 @@ class Submission(models.Model):
     username = models.ForeignKey(
         User, on_delete=models.CASCADE, default=1, related_name="submitter")
     created_on = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User)
+    likes = models.ManyToManyField(User, related_name='submission_likes', blank=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
@@ -70,3 +73,25 @@ class Submission(models.Model):
 
     def __str__(self):
         return self.title
+
+    def number_of_likes(self):
+        return self.likes.count()    
+
+
+def submission_slug(sender, instance, **kwargs):
+    slug = slugify(instance.title)
+    instance.slug = slug
+
+    if instance.pk:
+        other_submissions = Submission.objects.exclude(pk=instance.pk)
+    else:
+        other_submissions = Submission.objects.all()
+
+    i = 2
+    exists = other_submissions.filter(slug=instance.slug).count() > 0
+    while exists:
+        instance.slug = u'%s-%s' % (slug, i)
+        i += 1
+
+
+pre_save.connect(submission_slug, sender=Submission)

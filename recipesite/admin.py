@@ -15,9 +15,9 @@ class RecipeAdmin(SummernoteModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'body', 'created_on', 'approved')
+    list_display = ('name', 'title', 'body', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
-    search_fields = ('name', 'email', 'body')
+    search_fields = ('name', 'title', 'email', 'body')
     actions = ['approve_comments']
 
     def approve_comments(self, request, queryset):
@@ -30,6 +30,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_on')
     search_fields = ('name', 'email', 'body')
     actions = ['publish_recipes']
+    exclude = ['likes']
 
     def publish_recipes(modeladmin, request, queryset):
         queryset.update(status=1)
