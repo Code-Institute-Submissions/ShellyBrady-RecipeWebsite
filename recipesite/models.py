@@ -51,7 +51,6 @@ class Recipe(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     likes = models.ManyToManyField(
         User, related_name='recipe_likes', blank=True)
-    approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_on"]
@@ -86,22 +85,3 @@ class Submission(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
-
-
-def submission_slug(sender, instance, **kwargs):
-    slug = slugify(instance.title)
-    instance.slug = slug
-
-    if instance.pk:
-        other_submissions = Submission.objects.exclude(pk=instance.pk)
-    else:
-        other_submissions = Submission.objects.all()
-
-    i = 2
-    exists = other_submissions.filter(slug=instance.slug).count() > 0
-    while exists:
-        instance.slug = u'%s-%s' % (slug, i)
-        i += 1
-
-
-pre_save.connect(submission_slug, sender=Submission)

@@ -29,6 +29,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_on', 'status', 'username')
     list_filter = ('status', 'created_on')
     search_fields = ('name', 'email', 'body')
+    prepopulated_fields = {'slug': ('title',)}
     actions = ['publish_recipes']
     exclude = ['likes']
 
