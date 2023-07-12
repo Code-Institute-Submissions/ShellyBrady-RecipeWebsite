@@ -10,11 +10,37 @@ from django.template.defaultfilters import slugify
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
+class Comment(models.Model):
+    title = models.CharField(max_length=200, default="no title")
+    name = models.CharField(max_length=100, default="anon")
+    email = models.EmailField()
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+    submission = models.ForeignKey('Submission', related_name='comments', on_delete=models.CASCADE, null=True, blank=True)
+    recipe = models.ForeignKey('Recipe', related_name='comments', on_delete=models.CASCADE, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # Only set the related title for new comments
+            if self.submission:
+                self.title = self.submission.title
+            elif self.recipe:
+                self.title = self.recipe.title
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return f"Comment {self.body} by {self.name}"
+
+
 class Recipe(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="recipes")
+    comment = models.ForeignKey(Comment, related_name='recipes', on_delete=models.CASCADE, null=True, blank=True)
     updated_on = models.DateTimeField(auto_now=True)
     description = models.TextField(default='description')
     ingredients = models.TextField(default='ingredients')
@@ -37,29 +63,13 @@ class Recipe(models.Model):
         return self.likes.count()
 
 
-class Comment(models.Model):
-    submission = models.ForeignKey('Submission', related_name='comments', on_delete=models.CASCADE, null=True)
-    recipe = models.ForeignKey('Recipe', related_name='comments', on_delete=models.CASCADE, null=True)
-    title = models.CharField(max_length=200, default="no title")
-    name = models.CharField(max_length=100, default="anon")
-    email = models.EmailField()
-    body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
-
-    class Meta:
-        ordering = ['created_on']
-
-    def __str__(self):
-        return f"Comment {self.body} by {self.name}"
-
-
 class Submission(models.Model):
     title = models.CharField(max_length=120)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField()
     ingredients = models.TextField()
     instructions = models.TextField()
+    comment = models.ForeignKey(Comment, related_name='submissions', on_delete=models.CASCADE, null=True, blank=True)
     featured_image = CloudinaryField('image', default='placeholder')
     username = models.ForeignKey(
         User, on_delete=models.CASCADE, default=1, related_name="submitter")
@@ -75,7 +85,7 @@ class Submission(models.Model):
         return self.title
 
     def number_of_likes(self):
-        return self.likes.count()    
+        return self.likes.count()
 
 
 def submission_slug(sender, instance, **kwargs):

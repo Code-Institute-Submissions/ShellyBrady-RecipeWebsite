@@ -24,14 +24,21 @@ def get_recipe(request):
 
 
 class RecipeDetail(View):
+    model = Recipe
+    template_name = 'recipe_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe = self.get_object()
+        context['comments'] = recipe.comments.all()
+        return context
 
     def get(self, request, slug, *args, **kwargs):
-        pk = self.kwargs.get('pk')
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
         title = request.GET.get('title')
         content_type = ContentType.objects.get_for_model(recipe)
-        comments = Recipe.objects.filter(title=title, approved=True).order_by("-created_on")
+        comments = recipe.comments.filter(approved=True).order_by("-created_on")
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -50,6 +57,7 @@ class RecipeDetail(View):
 
     def post(self, request, slug, *args, **kwargs):
         queryset = Recipe.objects.filter(status=1)
+        title = request.GET.get('title')
         recipe = get_object_or_404(queryset, slug=slug)
         comments = recipe.comments.filter(approved=True).order_by("-created_on")
         liked = False
@@ -98,11 +106,6 @@ class SubmissionListView(generic.ListView):
     context_object_name = 'submission_list'
     paginate_by = 6
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['submissions'] = Submission.objects.filter(status=1)
-        return context
-
 
 def get_submission(request):
 
@@ -127,14 +130,20 @@ def create_submission(request):
 
 
 class SubmissionDetail(View):
+    model = Submission
+    template_name = 'submission_detail.html'
 
-    def get(self, request, pk, *args, **kwargs):
-        pk = self.kwargs.get('pk')
-        title = request.GET.get('title')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        submission = self.get_object()
+        context['comments'] = submission.comments.all()
+        return context
+
+    def get(self, request, slug, *args, **kwargs):
         queryset = Submission.objects.filter(status=1)
-        submission = get_object_or_404(Submission, slug=pk)
+        submission = get_object_or_404(Submission, slug=slug)
         content_type = ContentType.objects.get_for_model(Submission)
-        comments = Submission.objects.filter(title=title).order_by("-created_on")
+        comments = submission.comments.filter(approved=True).order_by("-created_on")
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -151,9 +160,10 @@ class SubmissionDetail(View):
             },
         )
 
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, slug, *args, **kwargs):
         queryset = Submission.objects.filter(status=1)
-        submission = get_object_or_404(queryset, pk=pk)
+        submission = get_object_or_404(queryset, slug=slug)
+        title = request.GET.get('title')
         comment = None
         comments = Comment.objects.filter(approved=True).order_by("-created_on")
         liked = False
