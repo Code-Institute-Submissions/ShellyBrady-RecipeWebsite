@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A website for simple, easy recipes">
+    <meta name="description" content="A website to find simple, easy recipes and share your favourites">
     <meta name="keywords" content="simple recipe, easy recipe, easy, simple, cooking, home, tasty">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,8 @@
 
               <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submission_list' %}">Member's Recipes</a></button>
                 {% if user.is_authenticated %}
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submit' %}">Submit a Recipe</a></button>                 
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submit' %}">Submit a Recipe</a></button> 
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'userpage' %}">{{user.username|title}}</a></button> 
                 <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_logout' %}">Log Out</a></button>
                   {% else %}
                 <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_login' %}">Log In</a></button>
@@ -52,6 +53,8 @@
             {% for message in messages %}
             <li{% if message.tags %} class="alert {{ message.tags }} alert-dismissible fade show" role="alert"{% endif %}>{{ message }}</li>
             {{ message | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
             {% endfor %}
         </ul>
         {% endif %}

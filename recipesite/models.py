@@ -3,8 +3,9 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.template.defaultfilters import slugify
+from django.dispatch import receiver
 
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -85,3 +86,17 @@ class Submission(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    submissions = models.ManyToManyField(Submission)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()

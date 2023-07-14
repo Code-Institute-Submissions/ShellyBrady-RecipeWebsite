@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from recipesite.models import Recipe, Submission, Comment
-from .forms import CommentForm, SubmissionForm
+from .forms import CommentForm, SubmissionForm, NewUserForm, UserForm, ProfileForm
 from django.contrib import messages
 from django.views.generic import DetailView
 
@@ -203,3 +203,9 @@ class SubmissionLike(View):
             submission.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('submission_detail', args=[slug]))
+
+
+def userpage(request):
+    user_form = UserForm(instance=request.user)
+    profile_form = ProfileForm(instance=request.user.profile)
+    return render(request=request, template_name="member.html", context={"user": request.user, "user_form": user_form, "profile_form": profile_form})
