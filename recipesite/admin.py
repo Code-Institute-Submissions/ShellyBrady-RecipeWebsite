@@ -26,7 +26,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_on', 'status', 'username')
+    list_display = ('title', 'created_on', 'status', 'username_id')
     list_filter = ('status', 'created_on')
     search_fields = ('name', 'email', 'body')
     prepopulated_fields = {'slug': ('title',)}

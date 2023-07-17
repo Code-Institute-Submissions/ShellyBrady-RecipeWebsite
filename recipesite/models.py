@@ -64,6 +64,7 @@ class Recipe(models.Model):
 
 
 class Submission(models.Model):
+    id = models.AutoField(primary_key=True, default=1)
     title = models.CharField(max_length=120)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField()
@@ -71,8 +72,7 @@ class Submission(models.Model):
     instructions = models.TextField()
     comment = models.ForeignKey(Comment, related_name='submissions', on_delete=models.CASCADE, null=True, blank=True)
     featured_image = CloudinaryField('image', default='placeholder')
-    username = models.ForeignKey(
-        User, on_delete=models.CASCADE, default=1, related_name="submitter")
+    username_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name="submitter", unique=False)
     created_on = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='submission_likes', blank=True)
     status = models.IntegerField(choices=STATUS, default=0)
@@ -86,17 +86,3 @@ class Submission(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    submissions = models.ManyToManyField(Submission)
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
