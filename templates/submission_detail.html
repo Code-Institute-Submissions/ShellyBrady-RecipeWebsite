@@ -1,5 +1,15 @@
 {% extends 'index.html' %} {% block content %}
 {% load crispy_forms_tags %}
+ <!--message alert code -->
+{% if messages %}
+    <div class="text-center"
+        <ul class="messages">
+            {% for message in messages %}
+               <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
+
 
 <div class="masthead">
     <div class="container">
@@ -13,7 +23,7 @@
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
                 {% if "placeholder" in submission.featured_image.url %}
-                <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1676972420/pp4recipes/woman-6760877_1280_bdxsqo.jpg" width="100%">
+                <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1689688944/pp4recipes/cooking-ga6d5b8de8_1280_eadwje.jpg" width="100%">
                 {% else %}
                 <img src=" {{ submission.featured_image.url }}" width="100%">
                 {% endif %}
@@ -24,46 +34,42 @@
 
 <div class="container">
     <div class="row">
-        <div class="col card mb-4 mt-3 left top">
+        <div class="col card mb-4 mt-3 left top fixed-width">
             <div class="card-body" style="border: 1px solid darkgreen">
                 <div class="description-title">
                     <h3>Description</h3>
                 </div>
-                <div class="recipe-description col card mb-4 mt-3">
+                <div class="recipe-description col card mb-3 mt-2">
                     <p>{{ submission.description | safe }}</p>
                 </div>
             </div>
         </div>
-    </div>  
-
-<div class="container">
+    </div>
     <div class="row">
-        <div class="col card mb-4 mt-3 left top">
+        <div class="col card mb-4 mt-3 left top fixed-width">
             <div class="card-body" style="border: 1px solid darkgreen">
                 <div class="ingredients-title">
                     <h3>Ingredients</h3>
                 </div>
-                <div class="recipe-ingredients col card mb-4 mt-3">
+                <div class="recipe-ingredients col card mb-3 mt-2">
                     <p>{{ submission.ingredients | safe }}</p>
                 </div>
             </div>
         </div>
-    </div>     
-
-    
-
+    </div>
     <div class="row">
-        <div class="col card mb-4 mt-3 left top">
+        <div class="col card mb-4 mt-3 left top fixed-width">
             <div class="card-body" style="border: 1px solid darkgreen">
                 <div class="instructions-title">
                     <h3>Instructions</h3>
                 </div>
-                <div class="recipe-instructions col card mb-4 mt-3">
+                <div class="recipe-instructions col card mb-3 mt-2">
                     <p>{{ submission.instructions | safe }}</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <hr /> 
                 

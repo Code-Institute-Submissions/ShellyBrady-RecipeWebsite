@@ -1,7 +1,20 @@
 {% extends "index.html" %}
 
 {% block content %}
-
+<div class="container justify-content-center">
+    <div class="row">
+      <div class="col-md-12 mt-3 md-2">
+        <h3 class="welcome" style="font-weight: 600;">Welcome</h3>
+  
+        <p>
+          <h4 class="intro">Welcome to our community of food lovers! Our website is a place where members can share their favorite recipes and discover new ones. Whether you’re an experienced cook or just starting out, we invite you to join us and share your culinary creations. Let’s cook, share, and enjoy delicious meals together!
+              <a class='link' href="{% url 'account_signup' %}">Sign up</a> to like, comment or submit a recipe. Do you already have an account? Then <a class="link"
+            href="{% url 'account_login' %}"> click here to sign in.</a>
+          </h4>
+        </p>
+      </div>
+    </div>
+</div>
 <div class="container-fluid justify-content-center p-0 me-2 ms-2">
     <div class="row justify-content-around vh100"> 
         

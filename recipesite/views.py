@@ -163,7 +163,7 @@ class SubmissionDetail(View):
         submission = get_object_or_404(queryset, slug=slug)
         title = request.GET.get('title')
         comment = None
-        comments = Comment.objects.filter(approved=True).order_by("-created_on")
+        comments = submission.comments.filter(approved=True).order_by("-created_on")
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -175,6 +175,8 @@ class SubmissionDetail(View):
             comment = comment_form.save(commit=False)
             comment.submission = submission
             comment.save()
+            messages.success(request, 'Your comment was submitted successfully and is waiting for admin approval')
+
         else:
             comment_form = CommentForm()
 
