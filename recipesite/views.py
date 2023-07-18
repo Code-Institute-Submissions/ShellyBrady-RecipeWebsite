@@ -7,6 +7,7 @@ from recipesite.models import Recipe, Submission, Comment
 from .forms import CommentForm, SubmissionForm
 from django.contrib import messages
 from django.views.generic import DetailView
+from django.utils.text import slugify
 
 
 class RecipeList(generic.ListView):
@@ -106,12 +107,8 @@ class SubmissionListView(generic.ListView):
     context_object_name = 'submission_list'
     paginate_by = 6
 
-
-def get_submission(request):
-
-    queryset = Submission.objects.filter(status=1)
-
-    return render(request, 'index.html', {'queryset': queryset})
+    def get_queryset(self):
+        return Submission.objects.filter(status=1)
 
 
 def create_submission(request):
@@ -119,7 +116,8 @@ def create_submission(request):
         form = SubmissionForm(request.POST)
         if form.is_valid():
             submission = form.save(commit=False)
-            submission.username = request.user.username
+            submission.username_id = request.user
+            submission.slug = slugify(submission.title)
             submission.save()
             messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
         return redirect('submission_list')

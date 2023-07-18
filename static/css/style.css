@@ -104,8 +104,10 @@ body.container-fluid {
     color: darkslategray;
 }
 
-/* style of recipe page */
+/* style of recipe page, member recipe page */
 
+
+.description-title h3, 
 .ingredients-title h3 {
     text-align:left;
     padding: 1%;
@@ -122,8 +124,9 @@ body.container-fluid {
     color: darkslategray;
 }
 
+.recipe-description.col.card.mb-4.mt-3,
 .recipe-ingredients.col.card.mb-4.mt-3, 
-.recipe-instructions.col.card.mb-2.mt-2 {
+.recipe-instructions.col.card.mb-4.mt-3 {
     text-align: Left;
     padding: 1%;
     color: darkslategray;

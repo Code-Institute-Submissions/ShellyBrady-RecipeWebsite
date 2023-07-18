@@ -8,7 +8,7 @@
                 <!-- Post title goes in these h1 tags -->
                 <h1 class="recipe-title">{{ submission.title }}</h1>
                 <!-- Post author goes before the | the post's created date goes after -->
-                <p class="recipe-subtitle">{{ submission.username }} | {{ submission.created_on }}</p>
+                <p class="recipe-subtitle">{{ submission.username_id }} | {{ submission.created_on }}</p>
             </div>
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
@@ -26,8 +26,22 @@
     <div class="row">
         <div class="col card mb-4 mt-3 left top">
             <div class="card-body" style="border: 1px solid darkgreen">
+                <div class="description-title">
+                    <h3>Description</h3>
+                </div>
+                <div class="recipe-description col card mb-4 mt-3">
+                    <p>{{ submission.description | safe }}</p>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+<div class="container">
+    <div class="row">
+        <div class="col card mb-4 mt-3 left top">
+            <div class="card-body" style="border: 1px solid darkgreen">
                 <div class="ingredients-title">
-                    <h3 >Ingredients</h3>
+                    <h3>Ingredients</h3>
                 </div>
                 <div class="recipe-ingredients col card mb-4 mt-3">
                     <p>{{ submission.ingredients | safe }}</p>
@@ -39,12 +53,12 @@
     
 
     <div class="row">
-        <div class="col card mb-4  mt-3 left  top ">
+        <div class="col card mb-4 mt-3 left top">
             <div class="card-body" style="border: 1px solid darkgreen">
                 <div class="instructions-title">
                     <h3>Instructions</h3>
                 </div>
-                <div class="recipe-instructions col card mb-2 mt-2">
+                <div class="recipe-instructions col card mb-4 mt-3">
                     <p>{{ submission.instructions | safe }}</p>
                 </div>
             </div>

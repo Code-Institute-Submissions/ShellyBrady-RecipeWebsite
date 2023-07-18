@@ -64,7 +64,7 @@ class Recipe(models.Model):
 
 
 class Submission(models.Model):
-    id = models.AutoField(primary_key=True, default=1)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=120)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField()
