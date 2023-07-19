@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Save changes">
+    <a href="{% url 'delete_submission' submission.id %}">Delete submission</a>
+</form>
+
+{% endblock %}

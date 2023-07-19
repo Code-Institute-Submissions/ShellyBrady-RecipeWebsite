@@ -203,3 +203,58 @@ class SubmissionLike(View):
             submission.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('submission_detail', args=[slug]))
+
+
+class EditProfile(View):
+    template_name = 'edit_profile.html'
+
+    def get(self, request, *args, **kwargs):
+        username = request.user.username
+        email = request.user.email
+        submissions = Submission.objects.filter(username_id=request.user)
+        context = {'username': username, 'submissions': submissions}
+        if not email:
+            context['message'] = 'Please enter your email address'
+        else:
+            context['email'] = email
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        for key, value in request.POST.items():
+            if key.isdigit():
+                submission_id = int(key)
+                submission = Submission.objects.get(id=submission_id)
+                submission.submission_text = value
+                submission.save()
+        return redirect('edit_profile')
+
+
+class EditSubmission(View):
+    template_name = 'edit_submission.html'
+
+    def get(self, request, submission_id, *args, **kwargs):
+        submission = get_object_or_404(Submission, id=submission_id)
+        form = SubmissionForm(instance=submission)
+        context = {'submission': submission, 'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, submission_id, *args, **kwargs):
+        submission = get_object_or_404(Submission, id=submission_id)
+        form = SubmissionForm(request.POST, instance=submission)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+        else:
+            context = {'submission': submission, 'form': form}
+            return render(request, self.template_name, context)
+
+    def handle_no_permission(self):
+        return redirect('edit_profile')
+
+
+class DeleteSubmission(View):
+    def get(self, request, submission_id, *args, **kwargs):
+        submission = get_object_or_404(Submission, id=submission_id)
+        if request.user == submission.username_id:
+            submission.delete()
+        return redirect('edit_profile')

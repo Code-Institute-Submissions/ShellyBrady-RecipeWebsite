@@ -35,7 +35,7 @@
               <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submission_list' %}">Member's Recipes</a></button>
                 {% if user.is_authenticated %}
                 <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submit' %}">Submit a Recipe</a></button> 
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submit' %}">Your Profile</a></button> 
+                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'edit_profile' %}">Edit Profile</a></button> 
                 <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_logout' %}">Log Out</a></button>
                   {% else %}
                 <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_login' %}">Log In</a></button>
