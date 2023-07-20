@@ -1,36 +1,29 @@
-{% extends 'index.html' %} {% block content %}
+{% extends 'index.html' %} 
+
+{% block content %}
+
 {% load crispy_forms_tags %}
- <!--message alert code -->
-{% if messages %}
-    <div class="text-center"
-        <ul class="messages">
-            {% for message in messages %}
-               <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-{% endif %}
 
-
-<div class="masthead">
-    <div class="container">
-        <div class="row g-0">
-            <div class="col-md-6 masthead-text">
+    <div class="masthead">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-md-6 masthead-text">
                 <!-- Post title goes in these h1 tags -->
-                <h1 class="recipe-title">{{ submission.title }}</h1>
+                    <h1 class="recipe-title">{{ submission.title }}</h1>
                 <!-- Post author goes before the | the post's created date goes after -->
-                <p class="recipe-subtitle">{{ submission.username_id }} | {{ submission.created_on }}</p>
-            </div>
-            <div class="d-none d-md-block col-md-6 masthead-image">
+                    <p class="recipe-subtitle text-center">{{ submission.username_id }} | {{ submission.created_on }}</p>
+                </div>
+                <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
-                {% if "placeholder" in submission.featured_image.url %}
-                <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1689688944/pp4recipes/cooking-ga6d5b8de8_1280_eadwje.jpg" width="100%">
-                {% else %}
-                <img src=" {{ submission.featured_image.url }}" width="100%">
-                {% endif %}
+                    {% if "placeholder" in submission.featured_image.url %}
+                    <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1689688944/pp4recipes/cooking-ga6d5b8de8_1280_eadwje.jpg" width="100%">
+                    {% else %}
+                    <img src=" {{ submission.featured_image.url }}" width="100%">
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <div class="container">
     <div class="row">
@@ -149,12 +142,14 @@
                 <!-- connect to crispy comment form --> 
                 {% if user.is_authenticated %}
 
-                <h3>Leave a comment on this recipe:</h3>
+                <h3>Leave a comment on this recipe</h3>
                 <p>Posting as: {{ user.username }}</p>
                 <form method="post" style="margin-top: 1.3em;">
                     {{ comment_form|crispy }}
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-signup btn-lg">Submit Comment</button>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-signup btn-lg">Submit Comment</button>
+                    </div>
                 </form>
                 {% endif %}
             </div>

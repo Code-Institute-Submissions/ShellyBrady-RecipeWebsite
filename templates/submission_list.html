@@ -2,12 +2,13 @@
 
 {% block content %}
 
+
 <div class="container-fluid justify-content-center p-0 me-2 ms-2">
-    <div class="row justify-content-around vh100"> 
+    <div class="row justify-content-center vh100"> 
         
         {% for submission in submission_list %}
         <div class="card-group col-sm-4">
-                <div class="card" style="background-color:#bebcbc;">
+                <div class="card" style="background-color:lightgray;">
                                 {% if "placeholder" in submission.featured_image.url %}
                                 <img class="card-img-top"
                                     src="https://res.cloudinary.com/dhifyjuus/image/upload/v1689688861/pp4recipes/background-gdb682910f_1280_kscvsw.jpg">
@@ -23,16 +24,16 @@
 
                             <a href="{% url 'submission_detail' submission.slug  %}">
                                 <h3 class="card-header">{{ submission.title }}</h3>
-                                <h4 class="author">{{ submission.username }}</h4>
+                                <h4 class="author">Submitted by {{ submission.username_id }}</h4>
                             </a>
 
-                            <div class="card-footer pb-3" style="background-color: lightgray;">{{ submission.created_on}} <i class="far fa-heart"></i>
+                            <div class="card-footer" style="background-color: lightgray;">{{ submission.created_on}} <i class="far fa-heart"></i>
                                 {{ submission.number_of_likes }}</div>
                         </div>       
                 </div>    
                 {% if forloop.counter|divisibleby:2 %}
 
-            <div class="row justify-content-around">
+            <div class="row justify-content-center">
                {% endif %}
                {% endfor %}
             </div>

@@ -72,6 +72,7 @@ class RecipeDetail(View):
             comment = comment_form.save(commit=False)
             comment.recipe = recipe
             comment.save()
+            comment_form = CommentForm()
         else:
             comment_form = CommentForm()
 
@@ -119,7 +120,7 @@ def create_submission(request):
             submission.username_id = request.user
             submission.slug = slugify(submission.title)
             submission.save()
-            messages.success(request, 'Your recipe has been submitted successfully and is awaiting approval by the admin.')
+            form = SubmissionForm()
         return redirect('submission_list')
     else:
         form = SubmissionForm()
@@ -175,8 +176,7 @@ class SubmissionDetail(View):
             comment = comment_form.save(commit=False)
             comment.submission = submission
             comment.save()
-            messages.success(request, 'Your comment was submitted successfully and is waiting for admin approval')
-
+            comment_form = CommentForm()
         else:
             comment_form = CommentForm()
 

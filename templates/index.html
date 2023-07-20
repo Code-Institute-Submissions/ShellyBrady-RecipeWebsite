@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,53 +22,44 @@
 
 <body class="container-fluid">
        <!--top of every page-->
-    <header>
+  <header>
       
-        <a href="{% url 'home' %}"><h1>Nice and Easy Recipes</h1></a>
+    <a href="{% url 'home' %}"><h1>Nice and Easy Recipes</h1></a>
         
 
-            <div class="list-group list-group-horizontal-sm me-0" id="menu">
+    <div class="list-group list-group-horizontal-sm me-0" id="menu">
 
-              <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'home' %}">Home</a></button>
-
-              <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submission_list' %}">Member's Recipes</a></button>
-                {% if user.is_authenticated %}
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submit' %}">Submit a Recipe</a></button> 
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'edit_profile' %}">Edit Profile</a></button> 
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_logout' %}">Log Out</a></button>
-                  {% else %}
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_login' %}">Log In</a></button>
-                <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_signup' %}">Sign Up</a></button>
-                  {% endif %}
-            </div>                 
-    </header>
-    <!--message alert code -->
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'home' %}">Home</a></button>
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submission_list' %}">Member's Recipes</a></button>
+      {% if user.is_authenticated %}
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'submit' %}">Submit a Recipe</a></button> 
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'edit_profile' %}">Edit Profile</a></button> 
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_logout' %}">Log Out</a></button>
+      {% else %}
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_login' %}">Log In</a></button>
+      <button type="button" class="list-group-item list-group-item-action px-3 border-0"><a href="{% url 'account_signup' %}">Sign Up</a></button>
+      {% endif %}
+    </div> 
+    
     <div class="container">
       <div class="row">
-          <div class="col-md-8 offset-md-2">
-              <!--alert message-->
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="alert {{ message.tags }} alert-dismissible fade show" role="alert"{% endif %}>{{ message }}
-            {{ message | safe }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            </button>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-      
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
+          {{ message | safe }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {% endfor %}
+        </div>
       </div>
     </div>
-
-
-    <main>
+            
+  </header>
+  
+  <main>
 
         {% block content %}
         <!-- Content Goes here -->
         {% endblock content %}
-    </main>
+  </main>
 
 
 
@@ -108,9 +98,10 @@
         </div>
 
       
-  
+  </footer>
+
 </body>
     
 
-  </footer>
+  
 </html>

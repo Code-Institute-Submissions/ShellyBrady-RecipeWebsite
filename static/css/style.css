@@ -99,6 +99,9 @@ li a.page-link {
 h3.card-header {
     color: darkgreen;
     font-family: 'Libre Baskerville', serif;
+    text-align: center;
+    font-size: 1.6em;
+    font-weight: 500;
 }
 
 .row {
@@ -108,20 +111,36 @@ h3.card-header {
 }
 
 h4.author {
-    color: black;
+    color: darkslategrey;
+    text-align: center;
+    font-size: 1.4em;
 }
 
 body.container-fluid {
     margin: 1%;
 }
 
-.card-footer.pb-3 {
+.card-footer {
     font-size: 1.3em;
     color: darkslategray;
+    text-align: center;
+    border: none;
+    margin-bottom: 2%;
+    
 }
 
 .messages li {
     font-weight: 500;
+}
+/* style forms */
+
+.form-control {
+    font-size: 1.6em;
+}
+
+.form-label {
+    font-size: 1.5em;
+    color: darkgreen;
 }
 
 /* style of recipe page, member recipe page */
@@ -134,21 +153,22 @@ body.container-fluid {
     padding: 1%;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
-    color: darkslategray;
+    color: darkgreen;
 }
 
 .ingredients-title h3 {
     padding: 1%;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
-    color: darkslategray;
+    color: darkgreen;
 }
 
 .instructions-title h3 {
     padding: 1%;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
-    color: darkslategray;
+    color: darkgreen;
+    font-size: 1.8em
 }
 
 .recipe-description.col.card.mb-3.mt-2,
@@ -157,14 +177,14 @@ body.container-fluid {
     padding: 1%;
     color: darkslategray;
     font-weight: 500;
-    font-size: 1.2em;
+    font-size: 1.7em;
 }
 
 .card-body {
     background-color: white;
 }
 
-/*style loggout message*/
+/*style buttons*/
 
 .btn.btn-signout {
     font-weight: 600;
@@ -174,3 +194,19 @@ body.container-fluid {
     margin: 5%;
 }
 
+.btn.btn-signup {
+    font-weight: 600;
+    font-size: 1.3em;
+    background-color: lightgrey;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 5%;
+}
+
+.btn.btn-primary {
+    background-color: lightgrey;
+    margin: 5%;
+    color: darkgreen;
+    border: none;
+    font-weight: 600;
+    font-size: 1.3em;
+}

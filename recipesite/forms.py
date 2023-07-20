@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 
 
 class CommentForm(forms.ModelForm):
+    body = forms.CharField(widget=forms.Textarea(attrs={'style': 'height: 100px;'}))
+
     class Meta:
         model = Comment
         fields = ('body',)

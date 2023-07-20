@@ -5,22 +5,20 @@
     <div class="row">
       <div class="col-md-12 mt-3 md-2">
         <h3 class="welcome" style="font-weight: 600;">Welcome</h3>
-  
         <p>
-          <h4 class="intro">Welcome to our community of food lovers! Our website is a place where members can share their favorite recipes and discover new ones. Whether you’re an experienced cook or just starting out, we invite you to join us and share your culinary creations. Let’s cook, share, and enjoy delicious meals together!
-              <a class='link' href="{% url 'account_signup' %}">Sign up</a> to like, comment or submit a recipe. Do you already have an account? Then <a class="link"
-            href="{% url 'account_login' %}"> click here to sign in.</a>
+          <h4 class="intro">
+            Welcome to our community of food lovers! Our website is a place where members can share their favorite recipes and discover new ones. Whether you're an experienced cook or just starting out, we invite you to join us and share your culinary creations. Let's cook, share, and enjoy delicious meals together!
           </h4>
         </p>
       </div>
     </div>
 </div>
 <div class="container-fluid justify-content-center p-0 me-2 ms-2">
-    <div class="row justify-content-around vh100"> 
+    <div class="row justify-content-center vh100"> 
         
         {% for recipe in recipe_list %}
         <div class="card-group col-sm-4">
-                <div class="card" style="background-color:#bebcbc;">
+                <div class="card" style="background-color:lightgray;">
                                 {% if "placeholder" in recipe.featured_image.url %}
                                 <img class="card-img-top"
                                     src="https://res.cloudinary.com/dhifyjuus/image/upload/v1677244923/enrdln0vg7f2igyturbd.jpg">
@@ -39,13 +37,13 @@
                                 <h4 class="author">{{ recipe.author }}</h4>
                             </a>
 
-                            <div class="card-footer pb-3" style="background-color: lightgray;">{{ recipe.created_on}} <i class="far fa-heart"></i>
+                            <div class="card-footer" style="background-color: lightgray;">{{ recipe.created_on}} <i class="far fa-heart"></i>
                                  {{ recipe.number_of_likes }}</div>
                         </div>       
                 </div>    
                 {% if forloop.counter|divisibleby:2 %}
 
-            <div class="row justify-content-around">
+            <div class="row justify-content-center">
                {% endif %}
                {% endfor %}
             </div>
