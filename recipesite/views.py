@@ -73,6 +73,7 @@ class RecipeDetail(View):
             comment.recipe = recipe
             comment.save()
             comment_form = CommentForm()
+            messages.success(request, "Your comment has been sent for approval by admin.")
         else:
             comment_form = CommentForm()
 
@@ -121,6 +122,7 @@ def create_submission(request):
             submission.slug = slugify(submission.title)
             submission.save()
             form = SubmissionForm()
+            messages.success(request, "Your recipe has been sent for approval by admin.")
         return redirect('submission_list')
     else:
         form = SubmissionForm()
@@ -177,6 +179,7 @@ class SubmissionDetail(View):
             comment.submission = submission
             comment.save()
             comment_form = CommentForm()
+            messages.success(request, "Your comment has been sent for approval by admin.")
         else:
             comment_form = CommentForm()
 
@@ -226,6 +229,7 @@ class EditProfile(View):
                 submission = Submission.objects.get(id=submission_id)
                 submission.submission_text = value
                 submission.save()
+                messages.success(request, "Your recipe has been sent for approval by admin.")
         return redirect('edit_profile')
 
 
@@ -243,6 +247,8 @@ class EditSubmission(View):
         form = SubmissionForm(request.POST, instance=submission)
         if form.is_valid():
             form.save()
+            messages.success(request, "You have successfully updated your recipe.")
+
             return redirect('edit_profile')
         else:
             context = {'submission': submission, 'form': form}
@@ -257,4 +263,5 @@ class DeleteSubmission(View):
         submission = get_object_or_404(Submission, id=submission_id)
         if request.user == submission.username_id:
             submission.delete()
+            messages.success(request, "Your recipe has been deleted.")
         return redirect('edit_profile')

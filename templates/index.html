@@ -41,29 +41,19 @@
       {% endif %}
     </div> 
     
-    <div class="container">
-      <div class="row">
-        {% for message in messages %}
-        <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
-          {{ message | safe }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        {% endfor %}
-        </div>
-      </div>
-    </div>
+    {% include 'messages.html' %}
             
   </header>
   
   <main>
 
         {% block content %}
-        <!-- Content Goes here -->
+
         {% endblock content %}
   </main>
 
 
 
-    <!--footer-->
   <footer>
         
     <div class="footer-content">
@@ -74,7 +64,6 @@
           Follow us on social-media
       </p>
     
-        <!--social media links--> 
 
         <section class="mb-4 text-center">
             <a class="btn btn-floating m-1" href="https://facebook.com" role="button" target="_blank" rel="noopener"
