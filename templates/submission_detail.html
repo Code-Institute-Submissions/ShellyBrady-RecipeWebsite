@@ -16,9 +16,9 @@
                 <div class="d-none d-md-block col-md-6 masthead-image">
                 
                     {% if "placeholder" in submission.featured_image.url %}
-                    <img src="https://res.cloudinary.com/dhifyjuus/image/upload/w_300,h_200,c_fill/v1689688944/pp4recipes/cooking-ga6d5b8de8_1280_eadwje.jpg" width="100%">
+                    <img src="https://res.cloudinary.com/dhifyjuus/image/upload/v1689688944/pp4recipes/cooking-ga6d5b8de8_1280_eadwje.jpg" alt="photo of ingredients" width="100%">
                     {% else %}
-                    <img src=" {{ submission.featured_image.url }}" width="100%">
+                    <img src=" {{ submission.featured_image.url }}" alt="photo of ingredients" swidth="100%">
                     {% endif %}
                 </div>
             </div>

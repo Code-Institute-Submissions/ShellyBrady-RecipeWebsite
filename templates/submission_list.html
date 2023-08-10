@@ -11,12 +11,12 @@
                 <div class="card" style="background-color:lightgray;">
                                 {% if "placeholder" in submission.featured_image.url %}
                                 <img class="card-img-top"
-                                    src="https://res.cloudinary.com/dhifyjuus/image/upload/w_300,h_200,c_fill/v1689688861/pp4recipes/background-gdb682910f_1280_kscvsw.jpg">
+                                    src="https://res.cloudinary.com/dhifyjuus/image/v1689688861/pp4recipes/background-gdb682910f_1280_kscvsw.jpg" alt="photo of ingredients">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>    
                                 {% else %}  
-                                <img class="card-img-top" src="{{ submission.featured_image.url }}">
+                                <img class="card-img-top" src="{{ submission.featured_image.url }}" alt="photo of ingredients">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>

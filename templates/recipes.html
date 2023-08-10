@@ -21,12 +21,12 @@
                 <div class="card" style="background-color:lightgray;">
                                 {% if "placeholder" in recipe.featured_image.url %}
                                 <img class="card-img-top"
-                                    src="https://res.cloudinary.com/dhifyjuus/image/upload/w_300,h_200,c_fill/v1677244923/enrdln0vg7f2igyturbd.jpg">
+                                    src="https://res.cloudinary.com/dhifyjuus/image/upload/v1677244923/enrdln0vg7f2igyturbd.jpg" alt="photo of delicious food">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>    
                                 {% else %}  
-                                <img class="card-img-top" src="{{ recipe.featured_image.url }}">
+                                <img class="card-img-top" src="{{ recipe.featured_image.url }}" alt="photo of ingredients">
                                 <a href="#!">
                                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                                 </a>
