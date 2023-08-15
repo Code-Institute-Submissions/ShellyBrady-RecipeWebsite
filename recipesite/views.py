@@ -39,7 +39,8 @@ class RecipeDetail(View):
         recipe = get_object_or_404(queryset, slug=slug)
         title = request.GET.get('title')
         content_type = ContentType.objects.get_for_model(recipe)
-        comments = recipe.comments.filter(approved=True).order_by("-created_on")
+        comments = (recipe.comments.filter(approved=True).
+                    order_by("-created_on"))
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -60,7 +61,8 @@ class RecipeDetail(View):
         queryset = Recipe.objects.filter(status=1)
         title = request.GET.get('title')
         recipe = get_object_or_404(queryset, slug=slug)
-        comments = recipe.comments.filter(approved=True).order_by("-created_on")
+        comments = (recipe.comments.filter(approved=True).
+                    order_by("-created_on"))
         liked = False
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -73,7 +75,9 @@ class RecipeDetail(View):
             comment.recipe = recipe
             comment.save()
             comment_form = CommentForm()
-            messages.success(request, "Your comment has been sent for approval by admin.")
+            messages.success((request,
+                             "Your comment has been sent"
+                              "for approval by admin."))
         else:
             comment_form = CommentForm()
 
@@ -122,7 +126,8 @@ def create_submission(request):
             submission.slug = slugify(submission.title)
             submission.save()
             form = SubmissionForm()
-            messages.success(request, "Your recipe has been sent for approval by admin.")
+            messages.success(request, ("Your recipe has been sent"
+                                       "for approval by admin."))
         return redirect('submission_list')
     else:
         form = SubmissionForm()
@@ -144,7 +149,8 @@ class SubmissionDetail(View):
         queryset = Submission.objects.filter(status=1)
         submission = get_object_or_404(Submission, slug=slug)
         content_type = ContentType.objects.get_for_model(Submission)
-        comments = submission.comments.filter(approved=True).order_by("-created_on")
+        comments = (submission.comments.filter(approved=True).
+                    order_by("-created_on"))
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -166,7 +172,8 @@ class SubmissionDetail(View):
         submission = get_object_or_404(queryset, slug=slug)
         title = request.GET.get('title')
         comment = None
-        comments = submission.comments.filter(approved=True).order_by("-created_on")
+        comments = (submission.comments.filter(approved=True).
+                    order_by("-created_on"))
         liked = False
         if submission.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -179,7 +186,8 @@ class SubmissionDetail(View):
             comment.submission = submission
             comment.save()
             comment_form = CommentForm()
-            messages.success(request, "Your comment has been sent for approval by admin.")
+            messages.success(request, ("Your comment has been"
+                                       "sent for approval by admin."))
         else:
             comment_form = CommentForm()
 
@@ -229,7 +237,8 @@ class EditProfile(View):
                 submission = Submission.objects.get(id=submission_id)
                 submission.submission_text = value
                 submission.save()
-                messages.success(request, "Your recipe has been sent for approval by admin.")
+                messages.success(request, ("Your recipe has been sent"
+                                           "for approval by admin."))
         return redirect('edit_profile')
 
 
@@ -247,7 +256,8 @@ class EditSubmission(View):
         form = SubmissionForm(request.POST, instance=submission)
         if form.is_valid():
             form.save()
-            messages.success(request, "You have successfully updated your recipe.")
+            messages.success(request, ("You have successfully"
+                                       "updated your recipe."))
 
             return redirect('edit_profile')
         else:
