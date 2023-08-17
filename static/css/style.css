@@ -94,14 +94,14 @@ li a.page-link {
 }
 
 /*image size responsivity*/
-@media (min-width: 601px) {
+@media screen and (min-width: 601px) {
     .card-img-top {
         width: 100%;
         height: auto;
     }
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .card-img-top {
         max-width: 80%;
         height: auto;
