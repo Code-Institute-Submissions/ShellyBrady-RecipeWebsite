@@ -49,6 +49,7 @@ It is built for educational purposes only and the members are fictional.
 
 ## Bugs
 
+When testing my app I realised the image in the recipe was not showing when the screen was narrower than the width of the image. This was because css was set to width:100%. I set breakpoints using @media screen and pushed it to heroku. However, that was when the Heroku quit working and began to show error unknow: item could not be modified. I will have to leave this as nothing suggested is helping and I've run out of time for Heroku to fix the issue.
 
 ## Testing
 

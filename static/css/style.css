@@ -103,7 +103,7 @@ li a.page-link {
 
 @media screen and (max-width: 600px) {
     .card-img-top {
-        max-width: 80%;
+        object-fit: contain;
         height: auto;
     }
 }
